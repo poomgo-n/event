@@ -248,40 +248,58 @@
       line-height: 1.6;
     }
 
-    .row-head {
-      display: grid;
-      gap: 12px;
-      padding: 0 4px 10px;
-      margin-bottom: 8px;
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .data-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .data-table th,
+    .data-table td {
       border-bottom: 1px solid var(--line-soft);
+      padding: 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .data-table th {
+      background: #f8fafc;
       font-size: 13px;
       font-weight: 800;
       color: #374151;
     }
 
-    .gift-head, .gift-row {
-      grid-template-columns: 1.5fr 1.2fr 0.7fr 88px;
+    .data-table tr:last-child td {
+      border-bottom: none;
     }
 
-    .product-head, .product-row {
-      grid-template-columns: 1.1fr 1.8fr 0.9fr 88px;
-    }
-
-    .gift-row, .product-row {
-      display: grid;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .gift-row input, .product-row input {
+    .data-table input {
       width: 100%;
-      min-height: 46px;
-      padding: 0 14px;
+      min-height: 42px;
+      padding: 0 12px;
       border: 1px solid #d7dce5;
-      border-radius: 12px;
+      border-radius: 10px;
       font-size: 14px;
       outline: none;
+      background: #fff;
+    }
+
+    .data-table input:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+    }
+
+    .cell-btn {
+      width: 100%;
+      min-width: 68px;
     }
 
     .submit-panel {
@@ -307,22 +325,24 @@
         grid-template-columns: 1fr;
       }
 
-      .row-head {
-        display: none;
-      }
-
-      .gift-row, .product-row {
-        grid-template-columns: 1fr;
-        padding: 14px;
-        border: 1px solid var(--line-soft);
-        border-radius: 16px;
-        background: #fbfcff;
-      }
-
       .template-header,
       .submit-panel {
         flex-direction: column;
         align-items: stretch;
+      }
+
+      .container {
+        padding: 24px 14px 48px;
+      }
+
+      .panel,
+      .template-card,
+      .sub-block {
+        padding: 18px;
+      }
+
+      .data-table {
+        min-width: 700px;
       }
     }
   </style>
@@ -334,7 +354,7 @@
         <h1>행사 정보 제출</h1>
         <p>
           고객사 공통 행사 정보 양식입니다.<br>
-          아래 버튼을 눌러 새 창에서 입력 화면을 열어주세요.
+          아래 버튼을 눌러 입력 화면을 열어주세요.
         </p>
         <button class="btn btn-primary" onclick="openFormPage()">행사 정보 입력하기</button>
       </div>
@@ -369,7 +389,7 @@
       <div class="panel">
         <div class="submit-panel">
           <div class="notice">
-            현재는 화면 구조 반영 단계입니다. 다음 단계에서 시트 저장 기능을 붙이면 됩니다.
+            현재는 화면 구조 반영 단계입니다. 다음 단계에서 시트 저장 기능을 연결하면 됩니다.
           </div>
           <button class="btn btn-primary" type="button" onclick="submitPreview()">최종 제출</button>
         </div>
@@ -378,238 +398,260 @@
   </div>
 
   <script>
-  let templateCounter = 0;
+    let templateCounter = 0;
 
-  function openFormPage() {
-    const url = window.location.origin + window.location.pathname + '?form=1';
-    window.open(url, '_blank');
-  }
-
-  function initPage() {
-    const params = new URLSearchParams(window.location.search);
-    const isForm = params.get('form') === '1';
-
-    document.getElementById('homePage').classList.toggle('active', !isForm);
-    document.getElementById('formPage').classList.toggle('active', isForm);
-
-    if (isForm) {
-      const container = document.getElementById('templatesContainer');
-      container.innerHTML = '';
-      templateCounter = 0;
-      addTemplate(true);
+    function openFormPage() {
+      const url = window.location.origin + window.location.pathname + '?form=1';
+      window.location.href = url;
     }
-  }
 
-  function addTemplate(isFixed = false) {
-    templateCounter++;
-    const templateId = `tpl-${Date.now()}-${templateCounter}`;
-    const container = document.getElementById('templatesContainer');
+    function initPage() {
+      const params = new URLSearchParams(window.location.search);
+      const isForm = params.get('form') === '1';
 
-    const html = `
-      <div class="template-card" data-template-id="${templateId}" data-fixed="${isFixed ? 'Y' : 'N'}">
-        <div class="template-header">
-          <div class="template-title-wrap">
-            <div class="template-badge">행사 템플릿 ${templateCounter}</div>
-            <div class="template-title">행사 입력</div>
-            <div class="template-sub">행사 정보, 예상 물량, 메인 품목을 입력해주세요.</div>
-          </div>
-          ${isFixed ? '' : `<button class="btn btn-danger" type="button" onclick="removeTemplate('${templateId}')">템플릿 삭제</button>`}
-        </div>
+      document.getElementById('homePage').classList.toggle('active', !isForm);
+      document.getElementById('formPage').classList.toggle('active', isForm);
 
-        <div class="sub-block">
-          <h3 class="sub-block-title">행사 정보</h3>
-          <div class="grid grid-2">
-            <div class="field">
-              <label>행사명<span class="required">*</span></label>
-              <input type="text" class="eventName" placeholder="행사명을 입력하세요.">
+      if (isForm) {
+        const container = document.getElementById('templatesContainer');
+        container.innerHTML = '';
+        templateCounter = 0;
+        addTemplate(true);
+      }
+    }
+
+    function addTemplate(isFixed = false) {
+      templateCounter++;
+      const templateId = `tpl-${Date.now()}-${templateCounter}`;
+      const container = document.getElementById('templatesContainer');
+
+      const html = `
+        <div class="template-card" data-template-id="${templateId}" data-fixed="${isFixed ? 'Y' : 'N'}">
+          <div class="template-header">
+            <div class="template-title-wrap">
+              <div class="template-badge">행사 템플릿 ${templateCounter}</div>
+              <div class="template-title">행사 입력</div>
+              <div class="template-sub">행사 정보, 예상 물량, 메인 품목을 입력해주세요.</div>
             </div>
-
-            <div class="field">
-              <label>행사 기간<span class="required">*</span></label>
-              <input type="text" class="eventPeriod" placeholder="예: 2026-03-10 ~ 2026-03-15">
-            </div>
-
-            <div class="field">
-              <label>행사 기간 내 라이브 유무<span class="required">*</span></label>
-              <select class="hasLive" onchange="toggleLiveFields(this)">
-                <option value="N">N</option>
-                <option value="Y">Y</option>
-              </select>
-            </div>
-
-            <div class="field liveField hidden">
-              <label>라이브 시간대</label>
-              <input type="text" class="liveTime" placeholder="예: 19:00 ~ 20:30">
-            </div>
-
-            <div class="field">
-              <label>톡톡메세지 발송 유무<span class="required">*</span></label>
-              <select class="hasTalkMessage" onchange="toggleTalkFields(this)">
-                <option value="N">N</option>
-                <option value="Y">Y</option>
-              </select>
-            </div>
-
-            <div class="field talkField hidden">
-              <label>발송 날짜/시간</label>
-              <input type="text" class="talkSendDateTime" placeholder="예: 2026-03-12 18:00">
-            </div>
-
-            <div class="field">
-              <label>사은품 유무<span class="required">*</span></label>
-              <select class="hasGift" onchange="toggleGiftFields(this)">
-                <option value="N">N</option>
-                <option value="Y">Y</option>
-              </select>
-            </div>
+            ${isFixed ? '' : `<button class="btn btn-danger" type="button" onclick="removeTemplate('${templateId}')">템플릿 삭제</button>`}
           </div>
 
-          <div class="sub-block giftFieldWrap hidden" style="margin-top:18px;">
-            <h3 class="sub-block-title">사은품 정보</h3>
-            <p class="sub-block-desc">사은품 유무가 Y인 경우, 각 행으로 입력해주세요.</p>
+          <div class="sub-block">
+            <h3 class="sub-block-title">행사 정보</h3>
+            <div class="grid grid-2">
+              <div class="field">
+                <label>행사명<span class="required">*</span></label>
+                <input type="text" class="eventName" placeholder="행사명을 입력하세요.">
+              </div>
 
-            <div class="row-head gift-head">
-              <div>사은품 적용 기준</div>
-              <div>상품(SKU)명</div>
-              <div>수량</div>
-              <div>삭제</div>
+              <div class="field">
+                <label>행사 기간<span class="required">*</span></label>
+                <input type="text" class="eventPeriod" placeholder="예: 2026-03-10 ~ 2026-03-15">
+              </div>
+
+              <div class="field">
+                <label>행사 기간 내 라이브 유무<span class="required">*</span></label>
+                <select class="hasLive" onchange="toggleLiveFields(this)">
+                  <option value="N">N</option>
+                  <option value="Y">Y</option>
+                </select>
+              </div>
+
+              <div class="field liveField hidden">
+                <label>라이브 시간대</label>
+                <input type="text" class="liveTime" placeholder="예: 19:00 ~ 20:30">
+              </div>
+
+              <div class="field">
+                <label>톡톡메세지 발송 유무<span class="required">*</span></label>
+                <select class="hasTalkMessage" onchange="toggleTalkFields(this)">
+                  <option value="N">N</option>
+                  <option value="Y">Y</option>
+                </select>
+              </div>
+
+              <div class="field talkField hidden">
+                <label>발송 날짜/시간</label>
+                <input type="text" class="talkSendDateTime" placeholder="예: 2026-03-12 18:00">
+              </div>
+
+              <div class="field">
+                <label>사은품 유무<span class="required">*</span></label>
+                <select class="hasGift" onchange="toggleGiftFields(this)">
+                  <option value="N">N</option>
+                  <option value="Y">Y</option>
+                </select>
+              </div>
             </div>
 
-            <div class="giftRowsContainer"></div>
+            <div class="sub-block giftFieldWrap hidden" style="margin-top:18px;">
+              <h3 class="sub-block-title">사은품 정보</h3>
+              <p class="sub-block-desc">사은품 유무가 Y인 경우, 각 행으로 입력해주세요.</p>
+
+              <div class="table-wrap">
+                <table class="data-table">
+                  <colgroup>
+                    <col style="width: 38%;">
+                    <col style="width: 32%;">
+                    <col style="width: 15%;">
+                    <col style="width: 15%;">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th>사은품 적용 기준</th>
+                      <th>상품(SKU)명</th>
+                      <th>수량</th>
+                      <th>삭제</th>
+                    </tr>
+                  </thead>
+                  <tbody class="giftRowsContainer"></tbody>
+                </table>
+              </div>
+
+              <div class="action-row">
+                <button class="btn btn-secondary" type="button" onclick="addGiftRow('${templateId}')">+ 사은품 행 추가</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-block">
+            <h3 class="sub-block-title">예상 물량</h3>
+            <div class="grid grid-3">
+              <div class="field">
+                <label>주문 건 수<span class="required">*</span></label>
+                <input type="number" class="dailyExpectedOrders" placeholder="상품주문번호 기준">
+              </div>
+
+              <div class="field liveOrderField hidden">
+                <label>라이브 시간대 예상 주문 건 수</label>
+                <input type="number" class="liveExpectedOrders" placeholder="라이브 예상 주문 건 수">
+              </div>
+
+              <div class="field">
+                <label>총 상품(SKU) 수량<span class="required">*</span></label>
+                <input type="number" class="dailyExpectedShipmentQty" placeholder="전체 출고 UNIT 예상 수">
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-block">
+            <h3 class="sub-block-title">메인 품목</h3>
+            <p class="sub-block-desc">상품번호, 상품명, 할인율을 입력해주세요.</p>
+
+            <div class="table-wrap">
+              <table class="data-table">
+                <colgroup>
+                  <col style="width: 24%;">
+                  <col style="width: 38%;">
+                  <col style="width: 20%;">
+                  <col style="width: 18%;">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>상품번호</th>
+                    <th>상품명</th>
+                    <th>할인율</th>
+                    <th>삭제</th>
+                  </tr>
+                </thead>
+                <tbody class="productsContainer"></tbody>
+              </table>
+            </div>
 
             <div class="action-row">
-              <button class="btn btn-secondary" type="button" onclick="addGiftRow('${templateId}')">+ 사은품 행 추가</button>
+              <button class="btn btn-secondary" type="button" onclick="addProductRow('${templateId}')">+ 상품 추가</button>
             </div>
           </div>
         </div>
+      `;
 
-        <div class="sub-block">
-          <h3 class="sub-block-title">예상 물량</h3>
-          <div class="grid grid-3">
-            <div class="field">
-              <label>주문 건 수<span class="required">*</span></label>
-              <input type="number" class="dailyExpectedOrders" placeholder="상품주문번호 기준">
-            </div>
+      container.insertAdjacentHTML('beforeend', html);
 
-            <div class="field liveOrderField hidden">
-              <label>라이브 시간대 예상 주문 건 수</label>
-              <input type="number" class="liveExpectedOrders" placeholder="라이브 예상 주문 건 수">
-            </div>
-
-            <div class="field">
-              <label>총 상품(SKU) 수량<span class="required">*</span></label>
-              <input type="number" class="dailyExpectedShipmentQty" placeholder="전체 출고 UNIT 예상 수">
-            </div>
-          </div>
-        </div>
-
-        <div class="sub-block">
-          <h3 class="sub-block-title">메인 품목</h3>
-          <p class="sub-block-desc">상품번호, 상품명, 할인율을 입력해주세요.</p>
-
-          <div class="row-head product-head">
-            <div>상품번호</div>
-            <div>상품명</div>
-            <div>할인율</div>
-            <div>삭제</div>
-          </div>
-
-          <div class="productsContainer"></div>
-
-          <div class="action-row">
-            <button class="btn btn-secondary" type="button" onclick="addProductRow('${templateId}')">+ 상품 추가</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    container.insertAdjacentHTML('beforeend', html);
-
-    for (let i = 0; i < 10; i++) {
-      addProductRow(templateId);
-    }
-  }
-
-  function removeTemplate(templateId) {
-    const el = document.querySelector(`[data-template-id="${templateId}"]`);
-    if (el) el.remove();
-  }
-
-  function addGiftRow(templateId) {
-    const templateEl = document.querySelector(`[data-template-id="${templateId}"]`);
-    const giftContainer = templateEl.querySelector('.giftRowsContainer');
-
-    const row = document.createElement('div');
-    row.className = 'gift-row';
-    row.innerHTML = `
-      <input type="text" class="giftConditionRow" placeholder="예: 5만원 이상 구매 시">
-      <input type="text" class="giftSkuNameRow" placeholder="상품(SKU)명">
-      <input type="number" class="giftQtyRow" placeholder="수량">
-      <button class="btn btn-danger" type="button" onclick="this.closest('.gift-row').remove()">삭제</button>
-    `;
-    giftContainer.appendChild(row);
-  }
-
-  function addProductRow(templateId) {
-    const templateEl = document.querySelector(`[data-template-id="${templateId}"]`);
-    const productsContainer = templateEl.querySelector('.productsContainer');
-
-    const row = document.createElement('div');
-    row.className = 'product-row';
-    row.innerHTML = `
-      <input type="text" class="productNo" placeholder="상품번호">
-      <input type="text" class="productName" placeholder="상품명">
-      <input type="text" class="discountRate" placeholder="예: 10%">
-      <button class="btn btn-danger" type="button" onclick="this.closest('.product-row').remove()">삭제</button>
-    `;
-    productsContainer.appendChild(row);
-  }
-
-  function toggleLiveFields(selectEl) {
-    const templateCard = selectEl.closest('.template-card');
-    const show = selectEl.value === 'Y';
-
-    templateCard.querySelectorAll('.liveField').forEach(el => {
-      el.classList.toggle('hidden', !show);
-    });
-
-    templateCard.querySelectorAll('.liveOrderField').forEach(el => {
-      el.classList.toggle('hidden', !show);
-    });
-  }
-
-  function toggleTalkFields(selectEl) {
-    const templateCard = selectEl.closest('.template-card');
-    const show = selectEl.value === 'Y';
-
-    templateCard.querySelectorAll('.talkField').forEach(el => {
-      el.classList.toggle('hidden', !show);
-    });
-  }
-
-  function toggleGiftFields(selectEl) {
-    const templateCard = selectEl.closest('.template-card');
-    const giftWrap = templateCard.querySelector('.giftFieldWrap');
-    const show = selectEl.value === 'Y';
-
-    giftWrap.classList.toggle('hidden', !show);
-
-    if (show && giftWrap.querySelectorAll('.gift-row').length === 0) {
-      addGiftRow(templateCard.dataset.templateId);
-    }
-  }
-
-  function submitPreview() {
-    const customerName = document.getElementById('customerName').value.trim();
-    if (!customerName) {
-      alert('고객사명을 입력해주세요.');
-      return;
+      for (let i = 0; i < 10; i++) {
+        addProductRow(templateId);
+      }
     }
 
-    alert('요청한 구조로 폼이 반영되었습니다. 다음 단계에서 시트 저장 연결하면 됩니다.');
-  }
+    function removeTemplate(templateId) {
+      const el = document.querySelector(`[data-template-id="${templateId}"]`);
+      if (el) el.remove();
+    }
 
-  initPage();
-</script>
+    function addGiftRow(templateId) {
+      const templateEl = document.querySelector(`[data-template-id="${templateId}"]`);
+      const giftContainer = templateEl.querySelector('.giftRowsContainer');
+
+      const row = document.createElement('tr');
+      row.className = 'gift-row';
+      row.innerHTML = `
+        <td><input type="text" class="giftConditionRow" placeholder="예: 5만원 이상 구매 시"></td>
+        <td><input type="text" class="giftSkuNameRow" placeholder="상품(SKU)명"></td>
+        <td><input type="number" class="giftQtyRow" placeholder="수량"></td>
+        <td><button class="btn btn-danger cell-btn" type="button" onclick="this.closest('tr').remove()">삭제</button></td>
+      `;
+      giftContainer.appendChild(row);
+    }
+
+    function addProductRow(templateId) {
+      const templateEl = document.querySelector(`[data-template-id="${templateId}"]`);
+      const productsContainer = templateEl.querySelector('.productsContainer');
+
+      const row = document.createElement('tr');
+      row.className = 'product-row';
+      row.innerHTML = `
+        <td><input type="text" class="productNo" placeholder="상품번호"></td>
+        <td><input type="text" class="productName" placeholder="상품명"></td>
+        <td><input type="text" class="discountRate" placeholder="예: 10%"></td>
+        <td><button class="btn btn-danger cell-btn" type="button" onclick="this.closest('tr').remove()">삭제</button></td>
+      `;
+      productsContainer.appendChild(row);
+    }
+
+    function toggleLiveFields(selectEl) {
+      const templateCard = selectEl.closest('.template-card');
+      const show = selectEl.value === 'Y';
+
+      templateCard.querySelectorAll('.liveField').forEach(el => {
+        el.classList.toggle('hidden', !show);
+      });
+
+      templateCard.querySelectorAll('.liveOrderField').forEach(el => {
+        el.classList.toggle('hidden', !show);
+      });
+    }
+
+    function toggleTalkFields(selectEl) {
+      const templateCard = selectEl.closest('.template-card');
+      const show = selectEl.value === 'Y';
+
+      templateCard.querySelectorAll('.talkField').forEach(el => {
+        el.classList.toggle('hidden', !show);
+      });
+    }
+
+    function toggleGiftFields(selectEl) {
+      const templateCard = selectEl.closest('.template-card');
+      const giftWrap = templateCard.querySelector('.giftFieldWrap');
+      const show = selectEl.value === 'Y';
+
+      giftWrap.classList.toggle('hidden', !show);
+
+      if (show && giftWrap.querySelectorAll('.gift-row').length === 0) {
+        addGiftRow(templateCard.dataset.templateId);
+      }
+    }
+
+    function submitPreview() {
+      const customerName = document.getElementById('customerName').value.trim();
+      if (!customerName) {
+        alert('고객사명을 입력해주세요.');
+        return;
+      }
+
+      alert('컬럼 헤더 1행 고정 버전으로 반영되었습니다.');
+    }
+
+    initPage();
+  </script>
 </body>
 </html>
