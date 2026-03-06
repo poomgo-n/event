@@ -17,7 +17,6 @@
       --danger: #dc2626;
       --danger-soft: #fef2f2;
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-      --radius: 18px;
     }
 
     * { box-sizing: border-box; }
@@ -30,14 +29,8 @@
       color: var(--text);
     }
 
-    .home-page, .form-page {
-      min-height: 100vh;
-      display: none;
-    }
-
-    .home-page.active, .form-page.active {
-      display: block;
-    }
+    .home-page, .form-page { min-height: 100vh; display: none; }
+    .home-page.active, .form-page.active { display: block; }
 
     .home-wrap {
       min-height: 100vh;
@@ -77,9 +70,7 @@
       padding: 36px 20px 60px;
     }
 
-    .page-hero {
-      margin-bottom: 24px;
-    }
+    .page-hero { margin-bottom: 24px; }
 
     .page-title {
       margin: 0 0 10px;
@@ -113,13 +104,8 @@
       gap: 16px;
     }
 
-    .grid-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .grid-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
     .field label {
       display: block;
@@ -133,8 +119,8 @@
     .field select,
     .field textarea {
       width: 100%;
-      height: 48px;
-      padding: 0 14px;
+      min-height: 48px;
+      padding: 12px 14px;
       border: 1px solid #d7dce5;
       border-radius: 12px;
       background: #fff;
@@ -145,8 +131,7 @@
     }
 
     .field textarea {
-      height: 110px;
-      padding: 14px;
+      min-height: 110px;
       resize: vertical;
     }
 
@@ -163,18 +148,13 @@
     }
 
     .btn {
-      height: 44px;
+      min-height: 44px;
       border: none;
       border-radius: 12px;
-      padding: 0 16px;
+      padding: 10px 16px;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.04s ease, opacity 0.15s ease, background 0.15s ease;
-    }
-
-    .btn:active {
-      transform: translateY(1px);
     }
 
     .btn-primary {
@@ -182,26 +162,14 @@
       color: #fff;
     }
 
-    .btn-primary:hover {
-      opacity: 0.94;
-    }
-
     .btn-secondary {
       background: var(--primary-soft);
       color: var(--primary);
     }
 
-    .btn-secondary:hover {
-      background: #dbeafe;
-    }
-
     .btn-danger {
       background: var(--danger-soft);
       color: var(--danger);
-    }
-
-    .btn-danger:hover {
-      background: #fee2e2;
     }
 
     .action-row {
@@ -239,7 +207,7 @@
       display: inline-flex;
       align-items: center;
       width: fit-content;
-      height: 28px;
+      min-height: 28px;
       padding: 0 10px;
       border-radius: 999px;
       background: var(--primary-soft);
@@ -268,7 +236,7 @@
     }
 
     .sub-block-title {
-      margin: 0 0 14px;
+      margin: 0 0 10px;
       font-size: 20px;
       font-weight: 800;
     }
@@ -280,9 +248,8 @@
       line-height: 1.6;
     }
 
-    .product-head {
+    .row-head {
       display: grid;
-      grid-template-columns: 1.1fr 1.8fr 0.9fr 88px;
       gap: 12px;
       padding: 0 4px 10px;
       margin-bottom: 8px;
@@ -292,32 +259,29 @@
       color: #374151;
     }
 
-    .product-row {
-      display: grid;
+    .gift-head, .gift-row {
+      grid-template-columns: 1.5fr 1.2fr 0.7fr 88px;
+    }
+
+    .product-head, .product-row {
       grid-template-columns: 1.1fr 1.8fr 0.9fr 88px;
+    }
+
+    .gift-row, .product-row {
+      display: grid;
       gap: 12px;
       align-items: center;
       margin-bottom: 12px;
     }
 
-    .product-row input {
+    .gift-row input, .product-row input {
       width: 100%;
-      height: 46px;
+      min-height: 46px;
       padding: 0 14px;
       border: 1px solid #d7dce5;
       border-radius: 12px;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-
-    .product-row input:focus {
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
-    }
-
-    .product-row .btn-danger {
-      width: 100%;
     }
 
     .submit-panel {
@@ -343,20 +307,16 @@
         grid-template-columns: 1fr;
       }
 
-      .product-head {
+      .row-head {
         display: none;
       }
 
-      .product-row {
+      .gift-row, .product-row {
         grid-template-columns: 1fr;
         padding: 14px;
         border: 1px solid var(--line-soft);
         border-radius: 16px;
         background: #fbfcff;
-      }
-
-      .product-row .btn-danger {
-        width: auto;
       }
 
       .template-header,
@@ -386,7 +346,7 @@
       <div class="page-hero">
         <h1 class="page-title">행사 정보 입력</h1>
         <p class="page-desc">
-          고객사명 입력 후 행사별 정보를 작성해주세요. 기본 템플릿 1개는 고정이며, 필요 시 추가할 수 있습니다.
+          고객사명 입력 후 행사별 정보를 작성해주세요.
         </p>
       </div>
 
@@ -409,7 +369,7 @@
       <div class="panel">
         <div class="submit-panel">
           <div class="notice">
-            현재는 화면 구성 확인 단계입니다. 다음 단계에서 제출 후 구글 시트에 저장되도록 연결할 예정입니다.
+            현재는 화면 구조 반영 단계입니다. 다음 단계에서 시트 저장 기능을 붙이면 됩니다.
           </div>
           <button class="btn btn-primary" type="button" onclick="submitPreview()">최종 제출</button>
         </div>
@@ -450,88 +410,104 @@
           <div class="template-header">
             <div class="template-title-wrap">
               <div class="template-badge">행사 템플릿 ${templateCounter}</div>
-              <div class="template-title">행사 기본 정보</div>
-              <div class="template-sub">행사명, 기간, 예상 물량 등 운영에 필요한 정보를 입력해주세요.</div>
+              <div class="template-title">행사 입력</div>
+              <div class="template-sub">행사 정보, 예상 물량, 메인 품목을 입력해주세요.</div>
             </div>
             ${isFixed ? '' : `<button class="btn btn-danger" type="button" onclick="removeTemplate('${templateId}')">템플릿 삭제</button>`}
           </div>
 
-          <div class="grid grid-3">
-            <div class="field">
-              <label>행사명<span class="required">*</span></label>
-              <input type="text" class="eventName" placeholder="행사명을 입력하세요.">
-            </div>
-
-            <div class="field">
-              <label>행사 기간<span class="required">*</span></label>
-              <input type="text" class="eventPeriod" placeholder="예: 2026-03-10 ~ 2026-03-15">
-            </div>
-
-            <div class="field">
-              <label>라이브 포함 유무<span class="required">*</span></label>
-              <select class="hasLive" onchange="toggleLiveFields(this)">
-                <option value="N">N</option>
-                <option value="Y">Y</option>
-              </select>
-            </div>
-
-            <div class="field liveField hidden">
-              <label>라이브 시간대</label>
-              <input type="text" class="liveTime" placeholder="예: 19:00 ~ 20:30">
-            </div>
-
-            <div class="field liveField hidden">
-              <label>라이브 예상 물량</label>
-              <input type="number" class="liveExpectedQty" placeholder="예상 물량 입력">
-            </div>
-
-            <div class="field">
-              <label>일 평균 예상 주문 건 수<span class="required">*</span></label>
-              <input type="number" class="dailyExpectedOrders" placeholder="상품주문번호 기준">
-            </div>
-
-            <div class="field">
-              <label>일 평균 예상 출고 수량<span class="required">*</span></label>
-              <input type="number" class="dailyExpectedShipmentQty" placeholder="상품별 출고 총 예상 수량">
-            </div>
-
-            <div class="field">
-              <label>톡톡 메세지 발송 유무<span class="required">*</span></label>
-              <select class="hasTalkMessage">
-                <option value="N">N</option>
-                <option value="Y">Y</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label>사은품 증정 여부<span class="required">*</span></label>
-              <select class="hasGift" onchange="toggleGiftFields(this)">
-                <option value="N">N</option>
-                <option value="Y">Y</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="sub-block giftFieldWrap hidden">
-            <h3 class="sub-block-title">사은품 정보</h3>
-            <p class="sub-block-desc">사은품 증정 여부가 Y인 경우에만 입력해주세요.</p>
+          <div class="sub-block">
+            <h3 class="sub-block-title">행사 정보</h3>
             <div class="grid grid-2">
               <div class="field">
-                <label>사은품 조건</label>
-                <textarea class="giftCondition" placeholder="예: 5만원 이상 구매 시 증정"></textarea>
+                <label>행사명<span class="required">*</span></label>
+                <input type="text" class="eventName" placeholder="행사명을 입력하세요.">
               </div>
+
               <div class="field">
-                <label>사은품 SKU</label>
-                <input type="text" class="giftSku" placeholder="증정되는 SKU를 입력하세요.">
+                <label>행사 기간<span class="required">*</span></label>
+                <input type="text" class="eventPeriod" placeholder="예: 2026-03-10 ~ 2026-03-15">
+              </div>
+
+              <div class="field">
+                <label>행사 기간 내 라이브 유무<span class="required">*</span></label>
+                <select class="hasLive" onchange="toggleLiveFields(this)">
+                  <option value="N">N</option>
+                  <option value="Y">Y</option>
+                </select>
+              </div>
+
+              <div class="field liveField hidden">
+                <label>라이브 시간대</label>
+                <input type="text" class="liveTime" placeholder="예: 19:00 ~ 20:30">
+              </div>
+
+              <div class="field">
+                <label>톡톡메세지 발송 유무<span class="required">*</span></label>
+                <select class="hasTalkMessage" onchange="toggleTalkFields(this)">
+                  <option value="N">N</option>
+                  <option value="Y">Y</option>
+                </select>
+              </div>
+
+              <div class="field talkField hidden">
+                <label>발송 날짜/시간</label>
+                <input type="text" class="talkSendDateTime" placeholder="예: 2026-03-12 18:00">
+              </div>
+
+              <div class="field">
+                <label>사은품 유무<span class="required">*</span></label>
+                <select class="hasGift" onchange="toggleGiftFields(this)">
+                  <option value="N">N</option>
+                  <option value="Y">Y</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="sub-block giftFieldWrap hidden" style="margin-top:18px;">
+              <h3 class="sub-block-title">사은품 정보</h3>
+              <p class="sub-block-desc">사은품 유무가 Y인 경우, 각 행으로 입력해주세요.</p>
+
+              <div class="row-head gift-head">
+                <div>사은품 적용 기준</div>
+                <div>상품(SKU)명</div>
+                <div>수량</div>
+                <div>삭제</div>
+              </div>
+
+              <div class="giftRowsContainer"></div>
+
+              <div class="action-row">
+                <button class="btn btn-secondary" type="button" onclick="addGiftRow('${templateId}')">+ 사은품 행 추가</button>
               </div>
             </div>
           </div>
 
           <div class="sub-block">
-            <h3 class="sub-block-title">메인 행사 품목</h3>
-            <p class="sub-block-desc">기본 10개 행이 제공되며, 필요 시 품목을 추가할 수 있습니다.</p>
+            <h3 class="sub-block-title">예상 물량</h3>
+            <div class="grid grid-3">
+              <div class="field">
+                <label>주문 건 수<span class="required">*</span></label>
+                <input type="number" class="dailyExpectedOrders" placeholder="상품주문번호 기준">
+              </div>
 
-            <div class="product-head">
+              <div class="field liveOrderField hidden">
+                <label>라이브 시간대 예상 주문 건 수</label>
+                <input type="number" class="liveExpectedOrders" placeholder="라이브 예상 주문 건 수">
+              </div>
+
+              <div class="field">
+                <label>총 상품(SKU) 수량<span class="required">*</span></label>
+                <input type="number" class="dailyExpectedShipmentQty" placeholder="전체 출고 UNIT 예상 수">
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-block">
+            <h3 class="sub-block-title">메인 품목</h3>
+            <p class="sub-block-desc">상품번호, 상품명, 할인율을 입력해주세요.</p>
+
+            <div class="row-head product-head">
               <div>상품번호</div>
               <div>상품명</div>
               <div>할인율</div>
@@ -555,31 +531,58 @@
     }
 
     function removeTemplate(templateId) {
-      const el = document.querySelector(`[data-template-id="${templateId}"]`);
+      const el = document.querySelector(\`[data-template-id="\${templateId}"]\`);
       if (el) el.remove();
     }
 
+    function addGiftRow(templateId) {
+      const templateEl = document.querySelector(\`[data-template-id="\${templateId}"]\`);
+      const giftContainer = templateEl.querySelector('.giftRowsContainer');
+
+      const row = document.createElement('div');
+      row.className = 'gift-row';
+      row.innerHTML = \`
+        <input type="text" class="giftConditionRow" placeholder="예: 5만원 이상 구매 시">
+        <input type="text" class="giftSkuNameRow" placeholder="상품(SKU)명">
+        <input type="number" class="giftQtyRow" placeholder="수량">
+        <button class="btn btn-danger" type="button" onclick="this.closest('.gift-row').remove()">삭제</button>
+      \`;
+      giftContainer.appendChild(row);
+    }
+
     function addProductRow(templateId) {
-      const templateEl = document.querySelector(`[data-template-id="${templateId}"]`);
+      const templateEl = document.querySelector(\`[data-template-id="\${templateId}"]\`);
       const productsContainer = templateEl.querySelector('.productsContainer');
 
       const row = document.createElement('div');
       row.className = 'product-row';
-      row.innerHTML = `
+      row.innerHTML = \`
         <input type="text" class="productNo" placeholder="상품번호">
         <input type="text" class="productName" placeholder="상품명">
         <input type="text" class="discountRate" placeholder="예: 10%">
         <button class="btn btn-danger" type="button" onclick="this.closest('.product-row').remove()">삭제</button>
-      `;
+      \`;
       productsContainer.appendChild(row);
     }
 
     function toggleLiveFields(selectEl) {
       const templateCard = selectEl.closest('.template-card');
-      const liveFields = templateCard.querySelectorAll('.liveField');
       const show = selectEl.value === 'Y';
 
-      liveFields.forEach(el => {
+      templateCard.querySelectorAll('.liveField').forEach(el => {
+        el.classList.toggle('hidden', !show);
+      });
+
+      templateCard.querySelectorAll('.liveOrderField').forEach(el => {
+        el.classList.toggle('hidden', !show);
+      });
+    }
+
+    function toggleTalkFields(selectEl) {
+      const templateCard = selectEl.closest('.template-card');
+      const show = selectEl.value === 'Y';
+
+      templateCard.querySelectorAll('.talkField').forEach(el => {
         el.classList.toggle('hidden', !show);
       });
     }
@@ -587,7 +590,13 @@
     function toggleGiftFields(selectEl) {
       const templateCard = selectEl.closest('.template-card');
       const giftWrap = templateCard.querySelector('.giftFieldWrap');
-      giftWrap.classList.toggle('hidden', selectEl.value !== 'Y');
+      const show = selectEl.value === 'Y';
+
+      giftWrap.classList.toggle('hidden', !show);
+
+      if (show && giftWrap.querySelectorAll('.gift-row').length === 0) {
+        addGiftRow(templateCard.dataset.templateId);
+      }
     }
 
     function submitPreview() {
@@ -597,7 +606,7 @@
         return;
       }
 
-      alert('가독성 개선 버전이 적용되었습니다. 다음 단계에서 구글 시트 저장 기능을 연결할게요.');
+      alert('요청한 구조로 폼이 반영되었습니다. 다음 단계에서 시트 저장 연결하면 됩니다.');
     }
 
     initPage();
