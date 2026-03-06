@@ -1,13 +1,452 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>행사 정보 제출</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #111827;
+    }
+
+    .home-page, .form-page {
+      min-height: 100vh;
+      display: none;
+    }
+
+    .home-page.active, .form-page.active {
+      display: block;
+    }
+
+    .home-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .home-card {
+      width: 100%;
+      max-width: 560px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .home-card h1 {
+      margin: 0 0 12px;
+      font-size: 30px;
+    }
+
+    .home-card p {
+      margin: 0 0 24px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #e0ecff;
+      color: #1d4ed8;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 16px 48px;
+    }
+
+    .page-title {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    .page-desc {
+      margin: 0 0 28px;
+      color: #6b7280;
+    }
+
+    .section {
+      background: #fff;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    .section h2 {
+      margin: 0 0 18px;
+      font-size: 22px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .field textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .required {
+      color: #dc2626;
+      margin-left: 4px;
+    }
+
+    .template-card {
+      border: 1px solid #dbeafe;
+      border-radius: 16px;
+      padding: 20px;
+      background: #f9fbff;
+      margin-top: 18px;
+    }
+
+    .template-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .template-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1d4ed8;
+    }
+
+    .products-wrap {
+      margin-top: 18px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .products-wrap h3 {
+      margin-top: 0;
+      margin-bottom: 14px;
+    }
+
+    .product-row {
+      display: grid;
+      grid-template-columns: 1.2fr 2fr 1fr auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .submit-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .notice {
+      margin-top: 12px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .product-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div id="homePage" class="home-page active">
+    <div class="home-wrap">
+      <div class="home-card">
+        <h1>행사 정보 제출</h1>
+        <p>
+          고객사 공통 행사 정보 양식입니다.<br>
+          아래 버튼을 눌러 새 창에서 입력 화면을 열어주세요.
+        </p>
+        <button class="btn btn-primary" onclick="openFormPage()">행사 정보 입력하기</button>
+      </div>
+    </div>
+  </div>
 
-<h1>행사 정보 제출 페이지</h1>
-<p>여기에 고객사 행사 템플릿 입력 화면이 들어갈 예정입니다.</p>
+  <div id="formPage" class="form-page">
+    <div class="container">
+      <h1 class="page-title">행사 정보 입력</h1>
+      <p class="page-desc">고객사명 입력 후 행사 템플릿을 작성해주세요.</p>
 
+      <div class="section">
+        <h2>기본 정보</h2>
+        <div class="grid grid-2">
+          <div class="field">
+            <label>고객사명<span class="required">*</span></label>
+            <input type="text" id="customerName" placeholder="고객사명을 입력하세요.">
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn-secondary" type="button" onclick="addTemplate()">+ 템플릿 추가</button>
+        </div>
+      </div>
+
+      <div id="templatesContainer"></div>
+
+      <div class="section">
+        <div class="submit-row">
+          <button class="btn btn-primary" type="button" onclick="submitPreview()">최종 제출</button>
+        </div>
+        <div class="notice">
+          현재는 미리보기 단계입니다. 다음 단계에서 구글 시트 저장 기능을 연결할 예정입니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let templateCounter = 0;
+
+    function openFormPage() {
+      const url = window.location.origin + window.location.pathname + '?form=1';
+      window.open(url, '_blank');
+    }
+
+    function initPage() {
+      const params = new URLSearchParams(window.location.search);
+      const isForm = params.get('form') === '1';
+
+      document.getElementById('homePage').classList.toggle('active', !isForm);
+      document.getElementById('formPage').classList.toggle('active', isForm);
+
+      if (isForm) {
+        const container = document.getElementById('templatesContainer');
+        container.innerHTML = '';
+        templateCounter = 0;
+        addTemplate(true);
+      }
+    }
+
+    function addTemplate(isFixed = false) {
+      templateCounter++;
+      const templateId = `tpl-${Date.now()}-${templateCounter}`;
+      const container = document.getElementById('templatesContainer');
+
+      const html = `
+        <div class="section template-card" data-template-id="${templateId}" data-fixed="${isFixed ? 'Y' : 'N'}">
+          <div class="template-header">
+            <div class="template-title">행사 템플릿 ${templateCounter}</div>
+            ${isFixed ? '' : `<button class="btn btn-danger" type="button" onclick="removeTemplate('${templateId}')">삭제</button>`}
+          </div>
+
+          <div class="grid grid-3">
+            <div class="field">
+              <label>행사명<span class="required">*</span></label>
+              <input type="text" class="eventName" placeholder="행사명을 입력하세요.">
+            </div>
+
+            <div class="field">
+              <label>행사 기간<span class="required">*</span></label>
+              <input type="text" class="eventPeriod" placeholder="예: 2026-03-10 ~ 2026-03-15">
+            </div>
+
+            <div class="field">
+              <label>라이브 포함 유무<span class="required">*</span></label>
+              <select class="hasLive" onchange="toggleLiveFields(this)">
+                <option value="N">N</option>
+                <option value="Y">Y</option>
+              </select>
+            </div>
+
+            <div class="field liveField hidden">
+              <label>라이브 시간대</label>
+              <input type="text" class="liveTime" placeholder="예: 19:00 ~ 20:30">
+            </div>
+
+            <div class="field liveField hidden">
+              <label>라이브 예상 물량</label>
+              <input type="number" class="liveExpectedQty" placeholder="예상 물량 입력">
+            </div>
+
+            <div class="field">
+              <label>일 평균 예상 주문 건 수<span class="required">*</span></label>
+              <input type="number" class="dailyExpectedOrders" placeholder="상품주문번호 기준">
+            </div>
+
+            <div class="field">
+              <label>일 평균 예상 출고 수량<span class="required">*</span></label>
+              <input type="number" class="dailyExpectedShipmentQty" placeholder="상품별 출고 총 예상 수량">
+            </div>
+
+            <div class="field">
+              <label>톡톡 메세지 발송 유무<span class="required">*</span></label>
+              <select class="hasTalkMessage">
+                <option value="N">N</option>
+                <option value="Y">Y</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>사은품 증정 여부<span class="required">*</span></label>
+              <select class="hasGift" onchange="toggleGiftFields(this)">
+                <option value="N">N</option>
+                <option value="Y">Y</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-2 giftFieldWrap hidden" style="margin-top: 14px;">
+            <div class="field">
+              <label>사은품 조건</label>
+              <textarea class="giftCondition" placeholder="예: 5만원 이상 구매 시 증정"></textarea>
+            </div>
+
+            <div class="field">
+              <label>사은품 SKU</label>
+              <input type="text" class="giftSku" placeholder="증정되는 SKU를 입력하세요.">
+            </div>
+          </div>
+
+          <div class="products-wrap">
+            <h3>메인 행사 품목</h3>
+            <div class="productsContainer"></div>
+
+            <div class="action-row">
+              <button class="btn btn-secondary" type="button" onclick="addProductRow('${templateId}')">+ 상품번호 추가</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.insertAdjacentHTML('beforeend', html);
+
+      for (let i = 0; i < 10; i++) {
+        addProductRow(templateId);
+      }
+    }
+
+    function removeTemplate(templateId) {
+      const el = document.querySelector(`[data-template-id="${templateId}"]`);
+      if (el) el.remove();
+    }
+
+    function addProductRow(templateId) {
+      const templateEl = document.querySelector(`[data-template-id="${templateId}"]`);
+      const productsContainer = templateEl.querySelector('.productsContainer');
+
+      const row = document.createElement('div');
+      row.className = 'product-row';
+      row.innerHTML = `
+        <div class="field">
+          <label>상품번호</label>
+          <input type="text" class="productNo" placeholder="상품번호">
+        </div>
+        <div class="field">
+          <label>상품명</label>
+          <input type="text" class="productName" placeholder="상품명">
+        </div>
+        <div class="field">
+          <label>할인율</label>
+          <input type="text" class="discountRate" placeholder="예: 10%">
+        </div>
+        <div>
+          <button class="btn btn-danger" type="button" onclick="this.closest('.product-row').remove()">삭제</button>
+        </div>
+      `;
+      productsContainer.appendChild(row);
+    }
+
+    function toggleLiveFields(selectEl) {
+      const templateCard = selectEl.closest('.template-card');
+      const liveFields = templateCard.querySelectorAll('.liveField');
+      const show = selectEl.value === 'Y';
+
+      liveFields.forEach(el => {
+        el.classList.toggle('hidden', !show);
+      });
+    }
+
+    function toggleGiftFields(selectEl) {
+      const templateCard = selectEl.closest('.template-card');
+      const giftWrap = templateCard.querySelector('.giftFieldWrap');
+      giftWrap.classList.toggle('hidden', selectEl.value !== 'Y');
+    }
+
+    function submitPreview() {
+      const customerName = document.getElementById('customerName').value.trim();
+      if (!customerName) {
+        alert('고객사명을 입력해주세요.');
+        return;
+      }
+
+      alert('화면 구성은 정상입니다. 다음 단계에서 구글 시트 저장 기능을 연결할게요.');
+    }
+
+    initPage();
+  </script>
 </body>
 </html>
