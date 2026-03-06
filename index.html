@@ -5,12 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>행사 정보 제출</title>
   <style>
+    :root{
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --line: #e5e7eb;
+      --line-soft: #eef2f7;
+      --text: #111827;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --danger: #dc2626;
+      --danger-soft: #fef2f2;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      --radius: 18px;
+    }
+
     * { box-sizing: border-box; }
-    body {
+
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background: #f5f7fb;
-      color: #111827;
+      background: var(--bg);
+      color: var(--text);
     }
 
     .home-page, .form-page {
@@ -33,80 +50,67 @@
     .home-card {
       width: 100%;
       max-width: 560px;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      padding: 40px 32px;
+      background: var(--card);
+      border: 1px solid var(--line-soft);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 44px 36px;
       text-align: center;
     }
 
     .home-card h1 {
-      margin: 0 0 12px;
-      font-size: 30px;
+      margin: 0 0 14px;
+      font-size: 32px;
+      line-height: 1.25;
     }
 
     .home-card p {
-      margin: 0 0 24px;
-      color: #6b7280;
-      line-height: 1.6;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 10px;
-      padding: 12px 18px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: #2563eb;
-      color: #fff;
-    }
-
-    .btn-secondary {
-      background: #e0ecff;
-      color: #1d4ed8;
-    }
-
-    .btn-danger {
-      background: #fee2e2;
-      color: #b91c1c;
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1180px;
       margin: 0 auto;
-      padding: 32px 16px 48px;
+      padding: 36px 20px 60px;
+    }
+
+    .page-hero {
+      margin-bottom: 24px;
     }
 
     .page-title {
-      margin: 0 0 8px;
-      font-size: 30px;
+      margin: 0 0 10px;
+      font-size: 32px;
+      line-height: 1.25;
     }
 
     .page-desc {
-      margin: 0 0 28px;
-      color: #6b7280;
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
     }
 
-    .section {
-      background: #fff;
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line-soft);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 26px;
       margin-bottom: 20px;
     }
 
-    .section h2 {
+    .panel h2 {
       margin: 0 0 18px;
       font-size: 22px;
     }
 
     .grid {
       display: grid;
-      gap: 14px;
+      gap: 16px;
     }
 
     .grid-2 {
@@ -122,35 +126,97 @@
       margin-bottom: 8px;
       font-size: 14px;
       font-weight: 700;
+      color: #1f2937;
     }
 
     .field input,
     .field select,
     .field textarea {
       width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 14px;
+      height: 48px;
+      padding: 0 14px;
+      border: 1px solid #d7dce5;
+      border-radius: 12px;
       background: #fff;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
     .field textarea {
-      min-height: 90px;
+      height: 110px;
+      padding: 14px;
       resize: vertical;
     }
 
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+    }
+
     .required {
-      color: #dc2626;
+      color: var(--danger);
       margin-left: 4px;
     }
 
-    .template-card {
-      border: 1px solid #dbeafe;
-      border-radius: 16px;
-      padding: 20px;
-      background: #f9fbff;
+    .btn {
+      height: 44px;
+      border: none;
+      border-radius: 12px;
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.04s ease, opacity 0.15s ease, background 0.15s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.94;
+    }
+
+    .btn-secondary {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: #dbeafe;
+    }
+
+    .btn-danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: #fee2e2;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
       margin-top: 18px;
+    }
+
+    .template-card {
+      background: #fcfdff;
+      border: 1px solid #dbe7ff;
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 18px;
     }
 
     .template-header {
@@ -158,66 +224,145 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .template-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .template-badge {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
     }
 
     .template-title {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 800;
-      color: #1d4ed8;
+      line-height: 1.3;
     }
 
-    .products-wrap {
-      margin-top: 18px;
-      border: 1px dashed #cbd5e1;
-      border-radius: 14px;
-      padding: 18px;
+    .template-sub {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .sub-block {
+      margin-top: 22px;
+      padding: 22px;
+      border: 1px solid var(--line-soft);
+      border-radius: 18px;
       background: #fff;
     }
 
-    .products-wrap h3 {
-      margin-top: 0;
-      margin-bottom: 14px;
+    .sub-block-title {
+      margin: 0 0 14px;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .sub-block-desc {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .product-head {
+      display: grid;
+      grid-template-columns: 1.1fr 1.8fr 0.9fr 88px;
+      gap: 12px;
+      padding: 0 4px 10px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 13px;
+      font-weight: 800;
+      color: #374151;
     }
 
     .product-row {
       display: grid;
-      grid-template-columns: 1.2fr 2fr 1fr auto;
-      gap: 10px;
-      align-items: end;
+      grid-template-columns: 1.1fr 1.8fr 0.9fr 88px;
+      gap: 12px;
+      align-items: center;
       margin-bottom: 12px;
     }
 
-    .action-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 16px;
+    .product-row input {
+      width: 100%;
+      height: 46px;
+      padding: 0 14px;
+      border: 1px solid #d7dce5;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
-    .submit-row {
+    .product-row input:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+    }
+
+    .product-row .btn-danger {
+      width: 100%;
+    }
+
+    .submit-panel {
       display: flex;
-      justify-content: flex-end;
-      margin-top: 24px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .notice {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
     }
 
     .hidden {
       display: none !important;
     }
 
-    .notice {
-      margin-top: 12px;
-      color: #6b7280;
-      font-size: 14px;
-    }
-
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .grid-2, .grid-3 {
         grid-template-columns: 1fr;
       }
 
+      .product-head {
+        display: none;
+      }
+
       .product-row {
         grid-template-columns: 1fr;
+        padding: 14px;
+        border: 1px solid var(--line-soft);
+        border-radius: 16px;
+        background: #fbfcff;
+      }
+
+      .product-row .btn-danger {
+        width: auto;
+      }
+
+      .template-header,
+      .submit-panel {
+        flex-direction: column;
+        align-items: stretch;
       }
     }
   </style>
@@ -238,10 +383,14 @@
 
   <div id="formPage" class="form-page">
     <div class="container">
-      <h1 class="page-title">행사 정보 입력</h1>
-      <p class="page-desc">고객사명 입력 후 행사 템플릿을 작성해주세요.</p>
+      <div class="page-hero">
+        <h1 class="page-title">행사 정보 입력</h1>
+        <p class="page-desc">
+          고객사명 입력 후 행사별 정보를 작성해주세요. 기본 템플릿 1개는 고정이며, 필요 시 추가할 수 있습니다.
+        </p>
+      </div>
 
-      <div class="section">
+      <div class="panel">
         <h2>기본 정보</h2>
         <div class="grid grid-2">
           <div class="field">
@@ -257,12 +406,12 @@
 
       <div id="templatesContainer"></div>
 
-      <div class="section">
-        <div class="submit-row">
+      <div class="panel">
+        <div class="submit-panel">
+          <div class="notice">
+            현재는 화면 구성 확인 단계입니다. 다음 단계에서 제출 후 구글 시트에 저장되도록 연결할 예정입니다.
+          </div>
           <button class="btn btn-primary" type="button" onclick="submitPreview()">최종 제출</button>
-        </div>
-        <div class="notice">
-          현재는 미리보기 단계입니다. 다음 단계에서 구글 시트 저장 기능을 연결할 예정입니다.
         </div>
       </div>
     </div>
@@ -297,10 +446,14 @@
       const container = document.getElementById('templatesContainer');
 
       const html = `
-        <div class="section template-card" data-template-id="${templateId}" data-fixed="${isFixed ? 'Y' : 'N'}">
+        <div class="template-card" data-template-id="${templateId}" data-fixed="${isFixed ? 'Y' : 'N'}">
           <div class="template-header">
-            <div class="template-title">행사 템플릿 ${templateCounter}</div>
-            ${isFixed ? '' : `<button class="btn btn-danger" type="button" onclick="removeTemplate('${templateId}')">삭제</button>`}
+            <div class="template-title-wrap">
+              <div class="template-badge">행사 템플릿 ${templateCounter}</div>
+              <div class="template-title">행사 기본 정보</div>
+              <div class="template-sub">행사명, 기간, 예상 물량 등 운영에 필요한 정보를 입력해주세요.</div>
+            </div>
+            ${isFixed ? '' : `<button class="btn btn-danger" type="button" onclick="removeTemplate('${templateId}')">템플릿 삭제</button>`}
           </div>
 
           <div class="grid grid-3">
@@ -359,24 +512,36 @@
             </div>
           </div>
 
-          <div class="grid grid-2 giftFieldWrap hidden" style="margin-top: 14px;">
-            <div class="field">
-              <label>사은품 조건</label>
-              <textarea class="giftCondition" placeholder="예: 5만원 이상 구매 시 증정"></textarea>
-            </div>
-
-            <div class="field">
-              <label>사은품 SKU</label>
-              <input type="text" class="giftSku" placeholder="증정되는 SKU를 입력하세요.">
+          <div class="sub-block giftFieldWrap hidden">
+            <h3 class="sub-block-title">사은품 정보</h3>
+            <p class="sub-block-desc">사은품 증정 여부가 Y인 경우에만 입력해주세요.</p>
+            <div class="grid grid-2">
+              <div class="field">
+                <label>사은품 조건</label>
+                <textarea class="giftCondition" placeholder="예: 5만원 이상 구매 시 증정"></textarea>
+              </div>
+              <div class="field">
+                <label>사은품 SKU</label>
+                <input type="text" class="giftSku" placeholder="증정되는 SKU를 입력하세요.">
+              </div>
             </div>
           </div>
 
-          <div class="products-wrap">
-            <h3>메인 행사 품목</h3>
+          <div class="sub-block">
+            <h3 class="sub-block-title">메인 행사 품목</h3>
+            <p class="sub-block-desc">기본 10개 행이 제공되며, 필요 시 품목을 추가할 수 있습니다.</p>
+
+            <div class="product-head">
+              <div>상품번호</div>
+              <div>상품명</div>
+              <div>할인율</div>
+              <div>삭제</div>
+            </div>
+
             <div class="productsContainer"></div>
 
             <div class="action-row">
-              <button class="btn btn-secondary" type="button" onclick="addProductRow('${templateId}')">+ 상품번호 추가</button>
+              <button class="btn btn-secondary" type="button" onclick="addProductRow('${templateId}')">+ 상품 추가</button>
             </div>
           </div>
         </div>
@@ -401,21 +566,10 @@
       const row = document.createElement('div');
       row.className = 'product-row';
       row.innerHTML = `
-        <div class="field">
-          <label>상품번호</label>
-          <input type="text" class="productNo" placeholder="상품번호">
-        </div>
-        <div class="field">
-          <label>상품명</label>
-          <input type="text" class="productName" placeholder="상품명">
-        </div>
-        <div class="field">
-          <label>할인율</label>
-          <input type="text" class="discountRate" placeholder="예: 10%">
-        </div>
-        <div>
-          <button class="btn btn-danger" type="button" onclick="this.closest('.product-row').remove()">삭제</button>
-        </div>
+        <input type="text" class="productNo" placeholder="상품번호">
+        <input type="text" class="productName" placeholder="상품명">
+        <input type="text" class="discountRate" placeholder="예: 10%">
+        <button class="btn btn-danger" type="button" onclick="this.closest('.product-row').remove()">삭제</button>
       `;
       productsContainer.appendChild(row);
     }
@@ -443,7 +597,7 @@
         return;
       }
 
-      alert('화면 구성은 정상입니다. 다음 단계에서 구글 시트 저장 기능을 연결할게요.');
+      alert('가독성 개선 버전이 적용되었습니다. 다음 단계에서 구글 시트 저장 기능을 연결할게요.');
     }
 
     initPage();
