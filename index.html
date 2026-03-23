@@ -19,6 +19,7 @@
       --brand: #0040d1;
       --brand-strong: #0032a3;
       --brand-soft: #eef4ff;
+      --brand-soft-strong: #dbe8ff;
       --bg: #f5f7fb;
       --surface: #ffffff;
       --text: #1f2937;
@@ -39,7 +40,7 @@
     }
 
     .wrap {
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto;
       padding: 32px 20px 60px;
     }
@@ -226,7 +227,8 @@
     .form-grid {
       display: grid;
       grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: 12px;
+      gap: 10px;
+      align-items: start;
     }
 
     .field {
@@ -236,9 +238,13 @@
       min-width: 0;
     }
 
+    .span-2 { grid-column: span 2; }
     .span-3 { grid-column: span 3; }
     .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
     .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
     .span-12 { grid-column: 1 / -1; }
 
     label {
@@ -250,6 +256,11 @@
     .required::after {
       content: " *";
       color: var(--danger);
+    }
+
+    .highlight-label {
+      color: #0f172a;
+      font-weight: 800;
     }
 
     .field-note {
@@ -297,11 +308,19 @@
       padding: 18px 20px;
       background: #f8fafc;
       border-bottom: 1px solid var(--line);
+    }
+
+    .block-head.emphasis {
+      background: #eaf1ff;
+      border-bottom: 1px solid #cfe0ff;
+    }
+
+    .block-head-row {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
     }
 
     .block-head h3 {
@@ -325,36 +344,19 @@
       align-items: center;
       gap: 10px;
       font-size: 14px;
-      font-weight: 700;
-      color: #374151;
+      font-weight: 800;
       white-space: nowrap;
+      background: var(--brand-soft-strong);
+      border: 1px solid #bcd2ff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: #0b3aa4;
     }
 
     .inline-check input[type="checkbox"] {
       width: 18px;
       height: 18px;
       accent-color: var(--brand);
-    }
-
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .toggle-row .toggle-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .toggle-row .toggle-title h4 {
-      font-size: 16px;
-      font-weight: 800;
-      color: #111827;
     }
 
     .item-list {
@@ -390,6 +392,7 @@
       align-items: center;
       gap: 8px;
       justify-content: flex-end;
+      flex-wrap: wrap;
     }
 
     .row-actions .btn {
@@ -399,13 +402,24 @@
     }
 
     .muted-box {
-      background: #f8fafc;
-      border: 1px solid #e5e7eb;
+      background: #f1f5ff;
+      border: 1px solid #d6e3ff;
       border-radius: 14px;
       padding: 12px 14px;
       font-size: 13px;
-      color: #4b5563;
+      color: #334155;
       line-height: 1.7;
+    }
+
+    .gift-group-card {
+      border: 1px solid #dbe5f3;
+      background: #fbfcfe;
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .gift-barcode-row + .gift-barcode-row {
+      margin-top: 10px;
     }
 
     .hidden {
@@ -541,15 +555,19 @@
       padding: 20px 0;
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1100px) {
       .form-grid,
       .compact-row {
         grid-template-columns: repeat(6, minmax(0, 1fr));
       }
 
+      .span-2,
       .span-3,
       .span-4,
-      .span-6 {
+      .span-5,
+      .span-6,
+      .span-7,
+      .span-8 {
         grid-column: span 6;
       }
 
@@ -594,7 +612,7 @@
 
       .section-top,
       .history-top,
-      .toggle-row {
+      .block-head-row {
         flex-direction: column;
         align-items: flex-start;
       }
@@ -651,14 +669,10 @@
       </div>
 
       <form id="eventForm">
+        <!-- 기본 정보 -->
         <div class="form-grid">
           <div class="field span-3">
-            <label>고객사명</label>
-            <input type="text" id="clientName" class="readonly" readonly />
-          </div>
-
-          <div class="field span-3">
-            <label for="eventTypeSelect" class="required">행사명</label>
+            <label for="eventTypeSelect" class="required highlight-label">행사명</label>
             <select id="eventTypeSelect">
               <option value="">선택해 주세요</option>
               <option>강세일</option>
@@ -689,46 +703,44 @@
           </div>
 
           <div class="field span-3 hidden" id="customEventNameWrap">
-            <label for="customEventName" class="required">직접 입력 행사명</label>
+            <label for="customEventName" class="required highlight-label">직접 입력 행사명</label>
             <input type="text" id="customEventName" placeholder="행사명을 입력해 주세요" />
           </div>
 
           <div class="field span-3">
-            <label for="startDate" class="required">행사 시작일</label>
+            <label for="startDate" class="required highlight-label">행사 시작일</label>
             <input type="date" id="startDate" />
           </div>
 
           <div class="field span-3">
-            <label for="endDate" class="required">행사 종료일</label>
+            <label for="endDate" class="required highlight-label">행사 종료일</label>
             <input type="date" id="endDate" />
           </div>
 
           <div class="field span-3">
-            <label for="expectedQty" class="required">예상 물량</label>
+            <label for="expectedQty" class="required highlight-label">예상 물량</label>
             <input type="number" id="expectedQty" placeholder="송장 기준 수량" min="0" />
-            <div class="field-note">타임딜/라이브 물량 포함, 송장 기준으로 입력해 주세요.</div>
+            <div class="field-note">타임딜, 라이브 물량 포함 송장 기준으로 입력해 주세요.</div>
           </div>
         </div>
 
         <!-- 라이브 -->
         <div class="block-section">
-          <div class="block-head">
-            <div>
-              <h3>라이브 진행</h3>
-              <p>라이브 시간대 물량만 별도로 입력해 주세요.</p>
-            </div>
-          </div>
-          <div class="block-body">
-            <div class="toggle-row">
-              <div class="toggle-title">
-                <h4>라이브 진행 유무</h4>
+          <div class="block-head emphasis">
+            <div class="block-head-row">
+              <div>
+                <h3>라이브 진행</h3>
+                <p>라이브 시간대 물량만 별도로 입력해 주세요.</p>
               </div>
+
               <label class="inline-check">
                 <input type="checkbox" id="hasLive" />
                 <span>사용</span>
               </label>
             </div>
+          </div>
 
+          <div class="block-body">
             <div id="liveSection" class="hidden">
               <div class="btn-row" style="margin-bottom:14px;">
                 <button type="button" class="btn btn-secondary" id="addLiveBtn">+ 라이브 일정 추가</button>
@@ -740,23 +752,21 @@
 
         <!-- 톡톡 -->
         <div class="block-section">
-          <div class="block-head">
-            <div>
-              <h3>톡톡메세지 발송</h3>
-              <p>발송 일정만 등록해 주세요.</p>
-            </div>
-          </div>
-          <div class="block-body">
-            <div class="toggle-row">
-              <div class="toggle-title">
-                <h4>톡톡메세지 발송 유무</h4>
+          <div class="block-head emphasis">
+            <div class="block-head-row">
+              <div>
+                <h3>톡톡메세지 발송</h3>
+                <p>발송 일정과 시간만 등록해 주세요.</p>
               </div>
+
               <label class="inline-check">
                 <input type="checkbox" id="hasTalk" />
                 <span>사용</span>
               </label>
             </div>
+          </div>
 
+          <div class="block-body">
             <div id="talkSection" class="hidden">
               <div class="btn-row" style="margin-bottom:14px;">
                 <button type="button" class="btn btn-secondary" id="addTalkBtn">+ 톡톡 일정 추가</button>
@@ -768,23 +778,21 @@
 
         <!-- 타임딜 -->
         <div class="block-section">
-          <div class="block-head">
-            <div>
-              <h3>타임딜</h3>
-              <p>일자 / 시간 / 바코드 / 예상 물량 기준으로 등록해 주세요.</p>
-            </div>
-          </div>
-          <div class="block-body">
-            <div class="toggle-row">
-              <div class="toggle-title">
-                <h4>타임딜 유무</h4>
+          <div class="block-head emphasis">
+            <div class="block-head-row">
+              <div>
+                <h3>타임딜</h3>
+                <p>일자, 시간, 바코드, 예상 물량 기준으로 등록해 주세요.</p>
               </div>
+
               <label class="inline-check">
                 <input type="checkbox" id="hasTimeDeal" />
                 <span>사용</span>
               </label>
             </div>
+          </div>
 
+          <div class="block-body">
             <div id="timeDealSection" class="hidden">
               <div class="btn-row" style="margin-bottom:14px;">
                 <button type="button" class="btn btn-secondary" id="addTimeDealBtn">+ 타임딜 추가</button>
@@ -796,23 +804,21 @@
 
         <!-- 사은품 -->
         <div class="block-section">
-          <div class="block-head">
-            <div>
-              <h3>사은품</h3>
-              <p>사은품 기준별로 바코드와 수량을 여러 개 추가할 수 있습니다.</p>
-            </div>
-          </div>
-          <div class="block-body">
-            <div class="toggle-row">
-              <div class="toggle-title">
-                <h4>사은품 증정</h4>
+          <div class="block-head emphasis">
+            <div class="block-head-row">
+              <div>
+                <h3>사은품 증정</h3>
+                <p>사은품 기준별로 바코드와 수량을 여러 개 추가할 수 있습니다.</p>
               </div>
+
               <label class="inline-check">
                 <input type="checkbox" id="hasGift" />
                 <span>사용</span>
               </label>
             </div>
+          </div>
 
+          <div class="block-body">
             <div id="giftSection" class="hidden">
               <div class="btn-row" style="margin-bottom:14px;">
                 <button type="button" class="btn btn-secondary" id="addGiftGroupBtn">+ 사은품 항목 추가</button>
@@ -830,6 +836,7 @@
               <p>상품번호 / 바코드 / 할인율 / 예상 출고 PCS 수량을 입력해 주세요.</p>
             </div>
           </div>
+
           <div class="block-body">
             <div class="btn-row" style="margin-bottom:14px;">
               <button type="button" class="btn btn-secondary" id="addMainSkuBtn">+ 메인 SKU 추가</button>
@@ -888,7 +895,6 @@
       goFormBtn: document.getElementById('goFormBtn'),
       goHistoryBtn: document.getElementById('goHistoryBtn'),
 
-      clientName: document.getElementById('clientName'),
       eventTypeSelect: document.getElementById('eventTypeSelect'),
       customEventNameWrap: document.getElementById('customEventNameWrap'),
       customEventName: document.getElementById('customEventName'),
@@ -959,6 +965,9 @@
         if (!isEtc) els.customEventName.value = '';
       });
 
+      document.getElementById('startDate').addEventListener('change', syncLiveDateMode);
+      document.getElementById('endDate').addEventListener('change', syncLiveDateMode);
+
       els.hasLive.addEventListener('change', () => toggleSection(els.hasLive, els.liveSection, els.liveList, addLiveItem));
       els.hasTalk.addEventListener('change', () => toggleSection(els.hasTalk, els.talkSection, els.talkList, addTalkItem));
       els.hasTimeDeal.addEventListener('change', () => toggleSection(els.hasTimeDeal, els.timeDealSection, els.timeDealList, addTimeDealItem));
@@ -1021,11 +1030,10 @@
       });
 
       document.addEventListener('change', (e) => {
-        const liveStart = e.target.closest('.live-start-select');
-        const liveDuration = e.target.closest('.live-duration-select');
+        const target = e.target;
 
-        if (liveStart || liveDuration) {
-          const card = e.target.closest('.item-card');
+        if (target.classList.contains('live-start-select') || target.classList.contains('live-duration-select')) {
+          const card = target.closest('.item-card');
           if (card) updateLiveDerivedFields(card);
         }
       });
@@ -1064,7 +1072,6 @@
         state.clientName = data.clientName;
 
         els.homeClientName.textContent = `${data.clientName} 전용 행사 공유 페이지입니다.`;
-        els.clientName.value = data.clientName;
       } catch (err) {
         setClientInvalid();
       }
@@ -1074,9 +1081,7 @@
       state.clientValid = false;
       state.clientCode = '';
       state.clientName = '';
-
       els.homeClientName.textContent = '행사 공유 페이지입니다.';
-      els.clientName.value = '';
       clearStatus();
     }
 
@@ -1117,16 +1122,50 @@
       return div;
     }
 
+    function getValue(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function getSelectedEventName() {
+      const selected = els.eventTypeSelect.value.trim();
+      if (!selected) return '';
+      if (selected === '기타') return els.customEventName.value.trim();
+      return selected;
+    }
+
+    function isSameDayEvent() {
+      return getValue('startDate') && getValue('endDate') && getValue('startDate') === getValue('endDate');
+    }
+
+    function syncLiveDateMode() {
+      const sameDay = isSameDayEvent();
+
+      [...els.liveList.querySelectorAll('.item-card')].forEach(card => {
+        const dateWrap = card.querySelector('.live-date-wrap');
+        const dateInput = card.querySelector('.live-date');
+
+        if (!dateWrap || !dateInput) return;
+
+        dateWrap.classList.toggle('hidden', sameDay);
+
+        if (sameDay) {
+          dateInput.value = getValue('startDate');
+        }
+      });
+    }
+
     function addLiveItem() {
+      const sameDay = isSameDayEvent();
+
       const card = createRowCard(`
         <div class="compact-row">
-          <div class="field span-3">
-            <label>라이브 일자</label>
-            <input type="date" class="live-date" />
+          <div class="field span-3 live-date-wrap ${sameDay ? 'hidden' : ''}">
+            <label class="highlight-label">라이브 일자</label>
+            <input type="date" class="live-date" value="${sameDay ? getValue('startDate') : ''}" />
           </div>
 
-          <div class="field span-2">
-            <label>시작시간</label>
+          <div class="field ${sameDay ? 'span-3' : 'span-2'}">
+            <label class="highlight-label">시작시간</label>
             <select class="live-start-select">
               <option value="">선택</option>
               <option value="10:00">10시</option>
@@ -1138,8 +1177,8 @@
             </select>
           </div>
 
-          <div class="field span-2">
-            <label>라이브 시간</label>
+          <div class="field ${sameDay ? 'span-3' : 'span-2'}">
+            <label class="highlight-label">라이브 시간</label>
             <select class="live-duration-select">
               <option value="">선택</option>
               <option value="60">1시간</option>
@@ -1148,65 +1187,31 @@
             </select>
           </div>
 
-          <div class="field span-2">
-            <label>종료시간</label>
-            <input type="text" class="live-end-display readonly" readonly placeholder="자동 계산" />
+          <div class="field ${sameDay ? 'span-4' : 'span-4'}">
+            <label class="highlight-label">라이브 예상 물량(송장기준)</label>
+            <input type="number" class="live-qty" min="0" placeholder="라이브 시간대 물량 입력" />
           </div>
 
           <div class="field span-2">
-            <label>라이브 유형</label>
-            <input type="text" class="live-type-display readonly" readonly placeholder="자동 표시" />
-          </div>
-
-          <div class="field span-1">
             <label>&nbsp;</label>
-            <div class="row-actions">
+            <div class="row-actions" style="justify-content:flex-start;">
               <button type="button" class="btn btn-danger" data-action="remove-live-row">삭제</button>
             </div>
           </div>
         </div>
 
-        <div class="compact-row">
-          <div class="field span-4">
-            <label>라이브 예상 물량</label>
-            <input type="number" class="live-qty" min="0" placeholder="라이브 시간대 물량" />
-          </div>
+        <div class="muted-box" style="margin-top:12px;">
+          <div class="live-summary-time">라이브 시간 : -</div>
+          <div class="live-summary-type" style="margin-top:4px;">라이브 유형 : -</div>
         </div>
       `);
 
       els.liveList.appendChild(card);
-    }
 
-    function updateLiveDerivedFields(card) {
-      const startValue = card.querySelector('.live-start-select')?.value || '';
-      const durationValue = card.querySelector('.live-duration-select')?.value || '';
-      const endDisplay = card.querySelector('.live-end-display');
-      const typeDisplay = card.querySelector('.live-type-display');
-
-      if (!startValue) {
-        if (endDisplay) endDisplay.value = '';
-        if (typeDisplay) typeDisplay.value = '';
-        return;
+      if (sameDay) {
+        const liveDateInput = card.querySelector('.live-date');
+        if (liveDateInput) liveDateInput.value = getValue('startDate');
       }
-
-      if (typeDisplay) {
-        const hour = Number(startValue.split(':')[0]);
-        if (hour >= 10 && hour <= 12) {
-          typeDisplay.value = '주간쇼핑라이브';
-        } else if (hour >= 18) {
-          typeDisplay.value = '야간쇼핑라이브';
-        } else {
-          typeDisplay.value = '';
-        }
-      }
-
-      if (!durationValue) {
-        if (endDisplay) endDisplay.value = '';
-        return;
-      }
-
-      const end = calculateEndTime(startValue, Number(durationValue));
-      if (endDisplay) endDisplay.value = end;
     }
 
     function calculateEndTime(startTime, durationMinutes) {
@@ -1217,16 +1222,45 @@
       return `${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}`;
     }
 
+    function updateLiveDerivedFields(card) {
+      const startValue = card.querySelector('.live-start-select')?.value || '';
+      const durationValue = card.querySelector('.live-duration-select')?.value || '';
+
+      const summaryTime = card.querySelector('.live-summary-time');
+      const summaryType = card.querySelector('.live-summary-type');
+
+      let liveType = '';
+      if (startValue) {
+        const hour = Number(startValue.split(':')[0]);
+        if (hour >= 10 && hour <= 12) {
+          liveType = '주간쇼핑라이브';
+        } else if (hour >= 18) {
+          liveType = '야간쇼핑라이브';
+        }
+      }
+
+      if (!startValue || !durationValue) {
+        if (summaryTime) summaryTime.textContent = '라이브 시간 : -';
+        if (summaryType) summaryType.textContent = `라이브 유형 : ${liveType || '-'}`;
+        return;
+      }
+
+      const end = calculateEndTime(startValue, Number(durationValue));
+
+      if (summaryTime) summaryTime.textContent = `라이브 시간 : ${startValue} ~ ${end}`;
+      if (summaryType) summaryType.textContent = `라이브 유형 : ${liveType || '-'}`;
+    }
+
     function addTalkItem() {
       const card = createRowCard(`
         <div class="compact-row">
           <div class="field span-4">
-            <label>발송일자</label>
+            <label class="highlight-label">발송일자</label>
             <input type="date" class="talk-date" />
           </div>
 
           <div class="field span-4">
-            <label>시간</label>
+            <label class="highlight-label">시간</label>
             <input type="time" class="talk-time" />
           </div>
 
@@ -1246,28 +1280,29 @@
       const card = createRowCard(`
         <div class="compact-row">
           <div class="field span-3">
-            <label>일자</label>
+            <label class="highlight-label">일자</label>
             <input type="date" class="timedeal-date" />
           </div>
 
-          <div class="field span-2">
-            <label>시간</label>
+          <div class="field span-3">
+            <label class="highlight-label">시간</label>
             <input type="time" class="timedeal-start" />
           </div>
 
           <div class="field span-4">
-            <label>바코드</label>
+            <label class="highlight-label">바코드</label>
             <input type="text" class="timedeal-barcode" placeholder="바코드 입력" />
           </div>
 
           <div class="field span-2">
-            <label>예상 물량</label>
+            <label class="highlight-label">예상 물량</label>
             <input type="number" class="timedeal-qty" min="0" placeholder="수량" />
           </div>
+        </div>
 
-          <div class="field span-1">
-            <label>&nbsp;</label>
-            <div class="row-actions">
+        <div class="compact-row">
+          <div class="field span-12">
+            <div class="row-actions" style="justify-content:flex-start;">
               <button type="button" class="btn btn-danger" data-action="remove-timedeal-row">삭제</button>
             </div>
           </div>
@@ -1279,11 +1314,11 @@
 
     function addGiftGroup() {
       const group = document.createElement('div');
-      group.className = 'item-card gift-group-card';
+      group.className = 'gift-group-card';
       group.innerHTML = `
         <div class="compact-row" style="margin-bottom:12px;">
           <div class="field span-4">
-            <label>사은품 기준</label>
+            <label class="highlight-label">사은품 기준</label>
             <input type="text" class="gift-condition" placeholder="예: 5만원 이상" />
           </div>
 
@@ -1310,12 +1345,12 @@
       row.innerHTML = `
         <div class="compact-row">
           <div class="field span-5">
-            <label>바코드</label>
+            <label class="highlight-label">바코드</label>
             <input type="text" class="gift-barcode" placeholder="바코드 입력" />
           </div>
 
           <div class="field span-3">
-            <label>수량</label>
+            <label class="highlight-label">수량</label>
             <input type="number" class="gift-qty" min="0" placeholder="수량 입력" />
           </div>
 
@@ -1334,22 +1369,22 @@
       const card = createRowCard(`
         <div class="compact-row">
           <div class="field span-3">
-            <label>상품번호</label>
+            <label class="highlight-label">상품번호</label>
             <input type="text" class="sku-productno" placeholder="상품번호 입력" />
           </div>
 
           <div class="field span-3">
-            <label>바코드</label>
+            <label class="highlight-label">바코드</label>
             <input type="text" class="sku-barcode" placeholder="바코드 입력" />
           </div>
 
           <div class="field span-2">
-            <label>할인율</label>
+            <label class="highlight-label">할인율</label>
             <input type="text" class="sku-discount" placeholder="예: 20%" />
           </div>
 
           <div class="field span-3">
-            <label>예상 출고 PCS 수량</label>
+            <label class="highlight-label">예상 출고 PCS 수량</label>
             <input type="number" class="sku-pcs" min="0" placeholder="PCS 수량" />
           </div>
 
@@ -1365,39 +1400,34 @@
       els.mainSkuList.appendChild(card);
     }
 
-    function getValue(id) {
-      return document.getElementById(id).value.trim();
-    }
-
-    function getSelectedEventName() {
-      const selected = els.eventTypeSelect.value.trim();
-      if (!selected) return '';
-      if (selected === '기타') return els.customEventName.value.trim();
-      return selected;
-    }
-
-    function showStatus(message, type = 'success') {
-      els.submitStatus.className = `status-box show ${type}`;
-      els.submitStatus.textContent = message;
-    }
-
-    function clearStatus() {
-      els.submitStatus.className = 'status-box';
-      els.submitStatus.textContent = '';
-    }
-
     function collectLiveItems() {
+      const sameDay = isSameDayEvent();
+
       return [...els.liveList.querySelectorAll('.item-card')].map(card => {
         const startTime = card.querySelector('.live-start-select')?.value || '';
         const duration = card.querySelector('.live-duration-select')?.value || '';
         const endTime = duration ? calculateEndTime(startTime, Number(duration)) : '';
 
+        let liveType = '';
+        if (startTime) {
+          const hour = Number(startTime.split(':')[0]);
+          if (hour >= 10 && hour <= 12) {
+            liveType = '주간쇼핑라이브';
+          } else if (hour >= 18) {
+            liveType = '야간쇼핑라이브';
+          }
+        }
+
+        const liveDate = sameDay
+          ? getValue('startDate')
+          : (card.querySelector('.live-date')?.value || '');
+
         return {
-          date: card.querySelector('.live-date')?.value || '',
+          date: liveDate,
           startTime,
           endTime,
           expectedQty: card.querySelector('.live-qty')?.value || '',
-          liveType: card.querySelector('.live-type-display')?.value || ''
+          liveType
         };
       }).filter(item => item.date || item.startTime || item.endTime || item.expectedQty);
     }
@@ -1448,6 +1478,16 @@
         discountRate: card.querySelector('.sku-discount')?.value.trim() || '',
         expectedPcsQty: card.querySelector('.sku-pcs')?.value || ''
       })).filter(item => item.productNo || item.barcode || item.discountRate || item.expectedPcsQty);
+    }
+
+    function showStatus(message, type = 'success') {
+      els.submitStatus.className = `status-box show ${type}`;
+      els.submitStatus.textContent = message;
+    }
+
+    function clearStatus() {
+      els.submitStatus.className = 'status-box';
+      els.submitStatus.textContent = '';
     }
 
     async function handleSubmit(e) {
@@ -1610,7 +1650,6 @@
 
       clearStatus();
       addMainSkuItem();
-      els.clientName.value = state.clientName || '';
     }
 
     function escapeHtml(value) {
