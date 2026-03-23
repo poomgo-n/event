@@ -3,655 +3,1525 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>행사 정보 제출</title>
+  <title>행사 공유 리스트</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+
   <style>
-    :root{
-      --bg: #f5f7fb;
-      --card: #ffffff;
-      --line: #e5e7eb;
-      --line-soft: #eef2f7;
-      --text: #111827;
-      --muted: #6b7280;
-      --primary: #2563eb;
-      --primary-soft: #eff6ff;
-      --danger: #dc2626;
-      --danger-soft: #fef2f2;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-    }
-
-    * { box-sizing: border-box; }
-
-    html, body {
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: Pretendard, sans-serif;
     }
 
-    .home-page, .form-page { min-height: 100vh; display: none; }
-    .home-page.active, .form-page.active { display: block; }
+    :root {
+      --brand: #0040d1;
+      --brand-strong: #0032a3;
+      --brand-soft: #eef4ff;
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --text-sub: #6b7280;
+      --line: #e5e7eb;
+      --danger: #dc2626;
+      --success: #0f9f6e;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+    }
 
-    .home-wrap {
+    body {
+      background: linear-gradient(180deg, #f7f9fd 0%, #eef3fb 100%);
+      color: var(--text);
       min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    .topbar {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(229,231,235,0.9);
+      border-radius: 28px;
+      padding: 22px 26px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 24px;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
     }
 
-    .home-card {
-      width: 100%;
-      max-width: 560px;
-      background: var(--card);
-      border: 1px solid var(--line-soft);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      padding: 44px 36px;
-      text-align: center;
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-width: 0;
     }
 
-    .home-card h1 {
-      margin: 0 0 14px;
-      font-size: 32px;
-      line-height: 1.25;
+    .brand-logo {
+      height: 40px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      flex-shrink: 0;
     }
 
-    .home-card p {
-      margin: 0 0 28px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.7;
+    .brand-copy {
+      min-width: 0;
     }
 
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 36px 20px 60px;
+    .brand-copy h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.2;
+      margin-bottom: 6px;
     }
 
-    .page-hero { margin-bottom: 24px; }
-
-    .page-title {
-      margin: 0 0 10px;
-      font-size: 32px;
-      line-height: 1.25;
+    .brand-copy p {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.5;
     }
 
-    .page-desc {
-      margin: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
+    .client-badge {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      border: 1px solid #d6e3ff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 700;
     }
 
     .panel {
-      background: var(--card);
-      border: 1px solid var(--line-soft);
-      border-radius: 22px;
+      display: none;
+      background: var(--surface);
+      border: 1px solid rgba(229,231,235,0.9);
+      border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
-      padding: 26px;
-      margin-bottom: 20px;
+      padding: 32px;
     }
 
-    .panel h2 {
-      margin: 0 0 18px;
-      font-size: 22px;
-    }
-
-    .grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-
-    .field label {
+    .panel.active {
       display: block;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
+      border: 1px solid #dfe8ff;
+      border-radius: 24px;
+      padding: 30px;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-card h2 {
+      font-size: 30px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .hero-card p {
+      font-size: 15px;
+      color: #4b5563;
+      line-height: 1.8;
+    }
+
+    .hero-side {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .mini-label {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      padding: 8px 12px;
+      background: #f3f6fc;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #4b5563;
       margin-bottom: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #1f2937;
     }
 
-    .field input,
-    .field select,
-    .field textarea {
-      width: 100%;
-      min-height: 48px;
-      padding: 12px 14px;
-      border: 1px solid #d7dce5;
-      border-radius: 12px;
+    .hero-side h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.5;
+    }
+
+    .hero-side p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.7;
+    }
+
+    .action-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .action-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 24px;
       background: #fff;
-      font-size: 14px;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-
-    .field textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
-    }
-
-    .required {
-      color: var(--danger);
-      margin-left: 4px;
-    }
-
-    .btn {
-      min-height: 44px;
-      border: none;
-      border-radius: 12px;
-      padding: 10px 16px;
-      font-size: 14px;
-      font-weight: 700;
+      transition: all 0.2s ease;
       cursor: pointer;
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
+    .action-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(15,23,42,0.08);
+      border-color: #cfe0ff;
     }
 
-    .btn-secondary {
-      background: var(--primary-soft);
-      color: var(--primary);
+    .action-card .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
     }
 
-    .btn-danger {
-      background: var(--danger-soft);
-      color: var(--danger);
+    .action-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: #111827;
     }
 
-    .action-row {
+    .action-card p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.7;
+    }
+
+    .section-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .section-title h2 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .btn-row {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 18px;
     }
 
-    .template-card {
-      background: #fcfdff;
-      border: 1px solid #dbe7ff;
+    button {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn {
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--brand);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-strong);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-secondary:hover {
+      border-color: #9ca3af;
+      background: #f9fafb;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #374151;
+    }
+
+    .required::after {
+      content: " *";
+      color: var(--danger);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: #111827;
+      background: white;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      padding-top: 14px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px rgba(0, 64, 209, 0.08);
+      outline: none;
+    }
+
+    .readonly {
+      background: #f9fafb;
+      color: #6b7280;
+    }
+
+    .toggle-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border: 1px solid var(--line);
+      background: #fafbfc;
+      border-radius: 18px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+    }
+
+    .toggle-line-left h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+
+    .toggle-line-left p {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .switch-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .switch-wrap input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      min-height: auto;
+      accent-color: var(--brand);
+    }
+
+    .block-section {
+      margin-top: 28px;
+      border: 1px solid var(--line);
       border-radius: 22px;
-      padding: 24px;
-      margin-bottom: 18px;
+      overflow: hidden;
+      background: white;
     }
 
-    .template-header {
+    .block-head {
+      padding: 18px 20px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .block-head h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .block-head p {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .block-body {
+      padding: 20px;
+    }
+
+    .item-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .item-card {
+      border: 1px solid #e5e7eb;
+      background: #fbfcfe;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .item-card-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--line-soft);
+      margin-bottom: 14px;
     }
 
-    .template-title-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    .item-card-top strong {
+      font-size: 15px;
+      color: #111827;
     }
 
-    .template-badge {
-      display: inline-flex;
-      align-items: center;
-      width: fit-content;
-      min-height: 28px;
-      padding: 0 10px;
-      border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--primary);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .template-title {
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.3;
-    }
-
-    .template-sub {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .sub-block {
-      margin-top: 22px;
-      padding: 22px;
-      border: 1px solid var(--line-soft);
-      border-radius: 18px;
+    .remove-btn {
       background: #fff;
-    }
-
-    .sub-block-title {
-      margin: 0 0 10px;
-      font-size: 20px;
-      font-weight: 800;
-    }
-
-    .sub-block-desc {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--line-soft);
-      border-radius: 16px;
-      background: #fff;
-    }
-
-    .data-table {
-      width: 100%;
-      min-width: 760px;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-
-    .data-table th,
-    .data-table td {
-      border-bottom: 1px solid var(--line-soft);
-      padding: 10px;
-      text-align: left;
-      vertical-align: middle;
-    }
-
-    .data-table th {
-      background: #f8fafc;
-      font-size: 13px;
-      font-weight: 800;
-      color: #374151;
-    }
-
-    .data-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .data-table input {
-      width: 100%;
-      min-height: 42px;
-      padding: 0 12px;
-      border: 1px solid #d7dce5;
+      border: 1px solid #f1c1c1;
+      color: #c62828;
       border-radius: 10px;
-      font-size: 14px;
-      outline: none;
-      background: #fff;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    .data-table input:focus {
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
-    }
-
-    .cell-btn {
-      width: 100%;
-      min-width: 68px;
-    }
-
-    .submit-panel {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .notice {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
+    .remove-btn:hover {
+      background: #fff5f5;
     }
 
     .hidden {
       display: none !important;
     }
 
-    @media (max-width: 960px) {
-      .grid-2, .grid-3 {
+    .status-box {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-box.success {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #b7f0d2;
+    }
+
+    .status-box.error {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .history-empty {
+      border: 1px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 28px 20px;
+      text-align: center;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .history-card {
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .history-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .history-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .history-date {
+      display: inline-flex;
+      align-items: center;
+      background: #f3f4f6;
+      color: #4b5563;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .history-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .meta-box {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .meta-box .label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .meta-box .value {
+      font-size: 15px;
+      color: #111827;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .history-flags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .flag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #eef4ff;
+      color: var(--brand);
+      border: 1px solid #d6e3ff;
+    }
+
+    .loading {
+      text-align: center;
+      font-size: 14px;
+      color: #64748b;
+      padding: 20px 0;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
         grid-template-columns: 1fr;
       }
 
-      .template-header,
-      .submit-panel {
+      .form-grid,
+      .history-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar,
+      .section-top,
+      .history-top {
         flex-direction: column;
-        align-items: stretch;
+        align-items: flex-start;
       }
 
-      .container {
-        padding: 24px 14px 48px;
+      .client-badge {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        padding: 18px 14px 36px;
       }
 
-      .panel,
-      .template-card,
-      .sub-block {
+      .panel {
+        padding: 20px;
+        border-radius: 22px;
+      }
+
+      .topbar {
         padding: 18px;
+        border-radius: 22px;
       }
 
-      .data-table {
-        min-width: 700px;
+      .brand-logo {
+        height: 34px;
+      }
+
+      .brand-copy h1 {
+        font-size: 24px;
+      }
+
+      .hero-card {
+        padding: 22px;
+        min-height: auto;
+      }
+
+      .hero-card h2 {
+        font-size: 24px;
+      }
+
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .block-body,
+      .block-head {
+        padding: 16px;
       }
     }
   </style>
 </head>
 <body>
-  <div id="homePage" class="home-page active">
-    <div class="home-wrap">
-      <div class="home-card">
-        <h1>행사 정보 제출</h1>
-        <p>
-          고객사 공통 행사 정보 양식입니다.<br>
-          아래 버튼을 눌러 입력 화면을 열어주세요.
-        </p>
-        <button class="btn btn-primary" onclick="openFormPage()">행사 정보 입력하기</button>
-      </div>
-    </div>
-  </div>
+  <div class="wrap">
 
-  <div id="formPage" class="form-page">
-    <div class="container">
-      <div class="page-hero">
-        <h1 class="page-title">행사 정보 입력</h1>
-        <p class="page-desc">
-          고객사명 입력 후 행사별 정보를 작성해주세요.
-        </p>
+    <header class="topbar">
+      <div class="brand-area">
+        <img src="./Symbol%20Type%20Logo.png" alt="품고 로고" class="brand-logo" />
+        <div class="brand-copy">
+          <h1>행사 공유 리스트</h1>
+          <p>행사 정보를 등록하고, 이전에 제출한 이력을 한 화면에서 확인할 수 있습니다.</p>
+        </div>
+      </div>
+      <div class="client-badge" id="clientBadge">고객사 확인 중...</div>
+    </header>
+
+    <!-- 메인 -->
+    <section class="panel active" id="homePanel">
+      <div class="hero">
+        <div class="hero-card">
+          <div>
+            <span class="mini-label">EVENT SHARE</span>
+            <h2>행사 공유가 필요한 정보를<br />간편하게 등록해 주세요.</h2>
+            <p>
+              행사명, 행사기간, 예상 물량, 라이브/톡톡/타임딜/사은품/SKU 정보까지
+              한 번에 제출할 수 있도록 구성했습니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="hero-side">
+          <span class="mini-label">안내</span>
+          <h3 id="homeClientName">고객사 정보를 불러오는 중입니다.</h3>
+          <p>
+            제출된 내용은 이 화면에서 다시 확인할 수 있으며,
+            고객사별 전용 링크를 통해 접속됩니다.
+          </p>
+        </div>
       </div>
 
-      <div class="panel">
-        <h2>기본 정보</h2>
-        <div class="grid grid-2">
+      <div class="action-grid">
+        <button type="button" class="action-card" id="goFormBtn">
+          <div class="icon">📝</div>
+          <h3>행사 제출하기</h3>
+          <p>새로운 행사 정보를 등록합니다. 행사 상세 항목도 함께 입력할 수 있습니다.</p>
+        </button>
+
+        <button type="button" class="action-card" id="goHistoryBtn">
+          <div class="icon">🕘</div>
+          <h3>과거 제출 행사 보기</h3>
+          <p>기존에 제출한 행사 이력을 확인합니다. 등록일, 행사기간, 예상 물량 등을 볼 수 있습니다.</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- 제출 폼 -->
+    <section class="panel" id="formPanel">
+      <div class="section-top">
+        <div class="section-title">
+          <h2>행사 제출하기</h2>
+          <p>필수 항목을 입력 후 제출해 주세요. 필요한 항목은 아래에서 추가할 수 있습니다.</p>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-secondary" data-go="home">메인으로</button>
+          <button type="button" class="btn btn-secondary" data-go="history">과거 제출 보기</button>
+        </div>
+      </div>
+
+      <form id="eventForm">
+        <div class="form-grid">
           <div class="field">
-            <label>고객사명<span class="required">*</span></label>
-            <input type="text" id="customerName" placeholder="고객사명을 입력하세요.">
+            <label>고객사명</label>
+            <input type="text" id="clientName" class="readonly" readonly />
+          </div>
+
+          <div class="field">
+            <label>고객사코드</label>
+            <input type="text" id="clientCodeView" class="readonly" readonly />
+          </div>
+
+          <div class="field full">
+            <label for="eventName" class="required">행사명</label>
+            <input type="text" id="eventName" placeholder="예: 봄맞이 브랜드 세일" />
+          </div>
+
+          <div class="field">
+            <label for="startDate" class="required">행사 시작일</label>
+            <input type="date" id="startDate" />
+          </div>
+
+          <div class="field">
+            <label for="endDate" class="required">행사 종료일</label>
+            <input type="date" id="endDate" />
+          </div>
+
+          <div class="field full">
+            <label for="expectedQty" class="required">기간 내 예상 물량</label>
+            <input type="number" id="expectedQty" placeholder="예상 물량을 입력해 주세요" min="0" />
           </div>
         </div>
 
-        <div class="action-row">
-          <button class="btn btn-secondary" type="button" onclick="addTemplate()">+ 템플릿 추가</button>
-        </div>
-      </div>
-
-      <div id="templatesContainer"></div>
-
-      <div class="panel">
-        <div class="submit-panel">
-          <div class="notice">
-            현재는 화면 구조 반영 단계입니다. 다음 단계에서 시트 저장 기능을 연결하면 됩니다.
+        <div class="block-section">
+          <div class="block-head">
+            <div>
+              <h3>라이브 진행</h3>
+              <p>체크 시 날짜, 시간대, 예상 물량을 입력할 수 있습니다.</p>
+            </div>
           </div>
-          <button class="btn btn-primary" type="button" onclick="submitPreview()">최종 제출</button>
+          <div class="block-body">
+            <div class="toggle-line">
+              <div class="toggle-line-left">
+                <h3>라이브 유무</h3>
+                <p>라이브 일정이 있는 경우 체크 후 항목을 추가해 주세요.</p>
+              </div>
+              <label class="switch-wrap">
+                <input type="checkbox" id="hasLive" />
+                <span>사용</span>
+              </label>
+            </div>
+
+            <div id="liveSection" class="hidden">
+              <div class="btn-row" style="margin-bottom:14px;">
+                <button type="button" class="btn btn-secondary" id="addLiveBtn">+ 라이브 일정 추가</button>
+              </div>
+              <div class="item-list" id="liveList"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-section">
+          <div class="block-head">
+            <div>
+              <h3>톡톡메세지 발송</h3>
+              <p>체크 시 발송일자와 시간을 추가할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="block-body">
+            <div class="toggle-line">
+              <div class="toggle-line-left">
+                <h3>톡톡메세지 발송 유무</h3>
+                <p>발송 일정이 있다면 체크 후 항목을 추가해 주세요.</p>
+              </div>
+              <label class="switch-wrap">
+                <input type="checkbox" id="hasTalk" />
+                <span>사용</span>
+              </label>
+            </div>
+
+            <div id="talkSection" class="hidden">
+              <div class="btn-row" style="margin-bottom:14px;">
+                <button type="button" class="btn btn-secondary" id="addTalkBtn">+ 톡톡 발송 일정 추가</button>
+              </div>
+              <div class="item-list" id="talkList"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-section">
+          <div class="block-head">
+            <div>
+              <h3>타임딜</h3>
+              <p>체크 시 일자, 시간, 바코드, 수량 제한 여부, 예상 물량을 추가할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="block-body">
+            <div class="toggle-line">
+              <div class="toggle-line-left">
+                <h3>타임딜 유무</h3>
+                <p>타임딜 일정이 있다면 체크 후 항목을 추가해 주세요.</p>
+              </div>
+              <label class="switch-wrap">
+                <input type="checkbox" id="hasTimeDeal" />
+                <span>사용</span>
+              </label>
+            </div>
+
+            <div id="timeDealSection" class="hidden">
+              <div class="btn-row" style="margin-bottom:14px;">
+                <button type="button" class="btn btn-secondary" id="addTimeDealBtn">+ 타임딜 추가</button>
+              </div>
+              <div class="item-list" id="timeDealList"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-section">
+          <div class="block-head">
+            <div>
+              <h3>사은품</h3>
+              <p>체크 시 사은품 기준 / 바코드 / 수량을 여러 줄로 추가할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="block-body">
+            <div class="toggle-line">
+              <div class="toggle-line-left">
+                <h3>사은품 유무</h3>
+                <p>사은품이 있다면 체크 후 항목을 추가해 주세요.</p>
+              </div>
+              <label class="switch-wrap">
+                <input type="checkbox" id="hasGift" />
+                <span>사용</span>
+              </label>
+            </div>
+
+            <div id="giftSection" class="hidden">
+              <div class="btn-row" style="margin-bottom:14px;">
+                <button type="button" class="btn btn-secondary" id="addGiftBtn">+ 사은품 항목 추가</button>
+              </div>
+              <div class="item-list" id="giftList"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-section">
+          <div class="block-head">
+            <div>
+              <h3>메인 SKU 정보</h3>
+              <p>상품 번호 / 바코드 / 할인율을 여러 줄로 추가할 수 있습니다.</p>
+            </div>
+            <button type="button" class="btn btn-secondary" id="addMainSkuBtn">+ 메인 SKU 추가</button>
+          </div>
+          <div class="block-body">
+            <div class="item-list" id="mainSkuList"></div>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top:28px;">
+          <button type="submit" class="btn btn-primary">행사 제출하기</button>
+          <button type="button" class="btn btn-secondary" id="resetFormBtn">초기화</button>
+        </div>
+
+        <div class="status-box" id="submitStatus"></div>
+      </form>
+    </section>
+
+    <!-- 히스토리 -->
+    <section class="panel" id="historyPanel">
+      <div class="section-top">
+        <div class="section-title">
+          <h2>과거 제출 행사 보기</h2>
+          <p>고객사별 제출 이력을 최신순으로 확인할 수 있습니다.</p>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-secondary" data-go="home">메인으로</button>
+          <button type="button" class="btn btn-secondary" data-go="form">행사 제출하기</button>
         </div>
       </div>
-    </div>
+
+      <div class="btn-row" style="margin-bottom:20px;">
+        <button type="button" class="btn btn-primary" id="reloadHistoryBtn">새로고침</button>
+      </div>
+
+      <div id="historyLoading" class="loading hidden">제출 이력을 불러오는 중입니다...</div>
+      <div class="history-list" id="historyList"></div>
+    </section>
   </div>
 
   <script>
-    let templateCounter = 0;
+    const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbzcSDqbVnvGpXabIkhpwl9nzx0MVpqLFTOZqoJ3S1pyooxoLTBTYxqe9W6v8hxMLsdP/exec';
 
-    function openFormPage() {
-      const url = window.location.origin + window.location.pathname + '?form=1';
-      window.location.href = url;
+    const state = {
+      clientCode: '',
+      clientName: '',
+      clientValid: false
+    };
+
+    const els = {
+      clientBadge: document.getElementById('clientBadge'),
+      homeClientName: document.getElementById('homeClientName'),
+
+      homePanel: document.getElementById('homePanel'),
+      formPanel: document.getElementById('formPanel'),
+      historyPanel: document.getElementById('historyPanel'),
+
+      goFormBtn: document.getElementById('goFormBtn'),
+      goHistoryBtn: document.getElementById('goHistoryBtn'),
+
+      clientName: document.getElementById('clientName'),
+      clientCodeView: document.getElementById('clientCodeView'),
+      eventForm: document.getElementById('eventForm'),
+      submitStatus: document.getElementById('submitStatus'),
+
+      hasLive: document.getElementById('hasLive'),
+      hasTalk: document.getElementById('hasTalk'),
+      hasTimeDeal: document.getElementById('hasTimeDeal'),
+      hasGift: document.getElementById('hasGift'),
+
+      liveSection: document.getElementById('liveSection'),
+      talkSection: document.getElementById('talkSection'),
+      timeDealSection: document.getElementById('timeDealSection'),
+      giftSection: document.getElementById('giftSection'),
+
+      liveList: document.getElementById('liveList'),
+      talkList: document.getElementById('talkList'),
+      timeDealList: document.getElementById('timeDealList'),
+      giftList: document.getElementById('giftList'),
+      mainSkuList: document.getElementById('mainSkuList'),
+
+      addLiveBtn: document.getElementById('addLiveBtn'),
+      addTalkBtn: document.getElementById('addTalkBtn'),
+      addTimeDealBtn: document.getElementById('addTimeDealBtn'),
+      addGiftBtn: document.getElementById('addGiftBtn'),
+      addMainSkuBtn: document.getElementById('addMainSkuBtn'),
+
+      reloadHistoryBtn: document.getElementById('reloadHistoryBtn'),
+      historyList: document.getElementById('historyList'),
+      historyLoading: document.getElementById('historyLoading'),
+
+      resetFormBtn: document.getElementById('resetFormBtn')
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      bindEvents();
+      initEmptyRows();
+      await loadClientInfo();
+    });
+
+    function bindEvents() {
+      els.goFormBtn.addEventListener('click', () => showPanel('form'));
+      els.goHistoryBtn.addEventListener('click', async () => {
+        showPanel('history');
+        await loadHistory();
+      });
+
+      document.querySelectorAll('[data-go="home"]').forEach(btn => {
+        btn.addEventListener('click', () => showPanel('home'));
+      });
+
+      document.querySelectorAll('[data-go="form"]').forEach(btn => {
+        btn.addEventListener('click', () => showPanel('form'));
+      });
+
+      document.querySelectorAll('[data-go="history"]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          showPanel('history');
+          await loadHistory();
+        });
+      });
+
+      els.hasLive.addEventListener('change', () => toggleSection(els.hasLive, els.liveSection, els.liveList, addLiveItem));
+      els.hasTalk.addEventListener('change', () => toggleSection(els.hasTalk, els.talkSection, els.talkList, addTalkItem));
+      els.hasTimeDeal.addEventListener('change', () => toggleSection(els.hasTimeDeal, els.timeDealSection, els.timeDealList, addTimeDealItem));
+      els.hasGift.addEventListener('change', () => toggleSection(els.hasGift, els.giftSection, els.giftList, addGiftItem));
+
+      els.addLiveBtn.addEventListener('click', addLiveItem);
+      els.addTalkBtn.addEventListener('click', addTalkItem);
+      els.addTimeDealBtn.addEventListener('click', addTimeDealItem);
+      els.addGiftBtn.addEventListener('click', addGiftItem);
+      els.addMainSkuBtn.addEventListener('click', addMainSkuItem);
+
+      els.reloadHistoryBtn.addEventListener('click', loadHistory);
+      els.resetFormBtn.addEventListener('click', resetForm);
+
+      els.eventForm.addEventListener('submit', handleSubmit);
+
+      document.addEventListener('click', (e) => {
+        const removeBtn = e.target.closest('.remove-btn');
+        if (!removeBtn) return;
+
+        const target = removeBtn.dataset.target;
+        const card = removeBtn.closest('.item-card');
+        if (card) card.remove();
+
+        if (target === 'mainSku') {
+          if (els.mainSkuList.children.length === 0) addMainSkuItem();
+          refreshItemTitles(els.mainSkuList, '메인 SKU');
+        }
+        if (target === 'live') refreshItemTitles(els.liveList, '라이브 일정');
+        if (target === 'talk') refreshItemTitles(els.talkList, '톡톡 일정');
+        if (target === 'timeDeal') refreshItemTitles(els.timeDealList, '타임딜');
+        if (target === 'gift') refreshItemTitles(els.giftList, '사은품');
+      });
+
+      document.addEventListener('change', (e) => {
+        if (e.target.classList.contains('time-deal-limit-check')) {
+          const wrap = e.target.closest('.item-card');
+          if (!wrap) return;
+          const limitInputWrap = wrap.querySelector('.limit-qty-wrap');
+          if (!limitInputWrap) return;
+          limitInputWrap.classList.toggle('hidden', !e.target.checked);
+        }
+      });
     }
 
-    function initPage() {
-      const params = new URLSearchParams(window.location.search);
-      const isForm = params.get('form') === '1';
+    function initEmptyRows() {
+      addMainSkuItem();
+    }
 
-      document.getElementById('homePage').classList.toggle('active', !isForm);
-      document.getElementById('formPage').classList.toggle('active', isForm);
+    function getClientCodeFromUrl() {
+      const url = new URL(window.location.href);
+      return (url.searchParams.get('client') || '').trim();
+    }
 
-      if (isForm) {
-        const container = document.getElementById('templatesContainer');
-        container.innerHTML = '';
-        templateCounter = 0;
-        addTemplate(true);
+    async function loadClientInfo() {
+      try {
+        const clientCode = getClientCodeFromUrl();
+        state.clientCode = clientCode;
+
+        if (!clientCode) {
+          setClientInvalid('고객사코드가 없는 링크입니다.');
+          return;
+        }
+
+        const url = `${API_BASE_URL}?action=getClientInfo&client=${encodeURIComponent(clientCode)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data.success) {
+          setClientInvalid(data.message || '고객사 정보를 불러오지 못했습니다.');
+          return;
+        }
+
+        state.clientValid = true;
+        state.clientCode = data.clientCode;
+        state.clientName = data.clientName;
+
+        els.clientBadge.textContent = `${data.clientName} · ${data.clientCode}`;
+        els.homeClientName.textContent = `${data.clientName} 전용 행사 공유 페이지입니다.`;
+        els.clientName.value = data.clientName;
+        els.clientCodeView.value = data.clientCode;
+      } catch (err) {
+        setClientInvalid('고객사 정보를 불러오는 중 오류가 발생했습니다.');
       }
     }
 
-    function addTemplate(isFixed = false) {
-      templateCounter++;
-      const templateId = `tpl-${Date.now()}-${templateCounter}`;
-      const container = document.getElementById('templatesContainer');
+    function setClientInvalid(message) {
+      state.clientValid = false;
+      els.clientBadge.textContent = '링크 확인 필요';
+      els.homeClientName.textContent = message;
+      els.clientName.value = '';
+      els.clientCodeView.value = '';
+      showStatus(message, 'error');
+    }
 
-      const html = `
-        <div class="template-card" data-template-id="${templateId}" data-fixed="${isFixed ? 'Y' : 'N'}">
-          <div class="template-header">
-            <div class="template-title-wrap">
-              <div class="template-badge">행사 템플릿 ${templateCounter}</div>
-              <div class="template-title">행사 입력</div>
-              <div class="template-sub">행사 정보, 예상 물량, 메인 품목을 입력해주세요.</div>
-            </div>
-            ${isFixed ? '' : `<button class="btn btn-danger" type="button" onclick="removeTemplate('${templateId}')">템플릿 삭제</button>`}
-          </div>
+    function showPanel(name) {
+      els.homePanel.classList.remove('active');
+      els.formPanel.classList.remove('active');
+      els.historyPanel.classList.remove('active');
 
-          <div class="sub-block">
-            <h3 class="sub-block-title">행사 정보</h3>
-            <div class="grid grid-2">
-              <div class="field">
-                <label>행사명<span class="required">*</span></label>
-                <input type="text" class="eventName" placeholder="행사명을 입력하세요.">
-              </div>
+      if (name === 'home') els.homePanel.classList.add('active');
+      if (name === 'form') els.formPanel.classList.add('active');
+      if (name === 'history') els.historyPanel.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-              <div class="field">
-                <label>행사 기간<span class="required">*</span></label>
-                <input type="text" class="eventPeriod" placeholder="예: 2026-03-10 ~ 2026-03-15">
-              </div>
+    function toggleSection(checkbox, section, listEl, addFn) {
+      section.classList.toggle('hidden', !checkbox.checked);
 
-              <div class="field">
-                <label>행사 기간 내 라이브 유무<span class="required">*</span></label>
-                <select class="hasLive" onchange="toggleLiveFields(this)">
-                  <option value="N">N</option>
-                  <option value="Y">Y</option>
-                </select>
-              </div>
+      if (checkbox.checked && listEl.children.length === 0) {
+        addFn();
+      }
 
-              <div class="field liveField hidden">
-                <label>라이브 시간대</label>
-                <input type="text" class="liveTime" placeholder="예: 19:00 ~ 20:30">
-              </div>
+      if (!checkbox.checked) {
+        listEl.innerHTML = '';
+      }
+    }
 
-              <div class="field">
-                <label>톡톡메세지 발송 유무<span class="required">*</span></label>
-                <select class="hasTalkMessage" onchange="toggleTalkFields(this)">
-                  <option value="N">N</option>
-                  <option value="Y">Y</option>
-                </select>
-              </div>
-
-              <div class="field talkField hidden">
-                <label>발송 날짜/시간</label>
-                <input type="text" class="talkSendDateTime" placeholder="예: 2026-03-12 18:00">
-              </div>
-
-              <div class="field">
-                <label>사은품 유무<span class="required">*</span></label>
-                <select class="hasGift" onchange="toggleGiftFields(this)">
-                  <option value="N">N</option>
-                  <option value="Y">Y</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="sub-block giftFieldWrap hidden" style="margin-top:18px;">
-              <h3 class="sub-block-title">사은품 정보</h3>
-              <p class="sub-block-desc">사은품 유무가 Y인 경우, 각 행으로 입력해주세요.</p>
-
-              <div class="table-wrap">
-                <table class="data-table">
-                  <colgroup>
-                    <col style="width: 38%;">
-                    <col style="width: 32%;">
-                    <col style="width: 15%;">
-                    <col style="width: 15%;">
-                  </colgroup>
-                  <thead>
-                    <tr>
-                      <th>사은품 적용 기준</th>
-                      <th>상품(SKU)명</th>
-                      <th>수량</th>
-                      <th>삭제</th>
-                    </tr>
-                  </thead>
-                  <tbody class="giftRowsContainer"></tbody>
-                </table>
-              </div>
-
-              <div class="action-row">
-                <button class="btn btn-secondary" type="button" onclick="addGiftRow('${templateId}')">+ 사은품 행 추가</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="sub-block">
-            <h3 class="sub-block-title">예상 물량</h3>
-            <div class="grid grid-3">
-              <div class="field">
-                <label>주문 건 수<span class="required">*</span></label>
-                <input type="number" class="dailyExpectedOrders" placeholder="상품주문번호 기준">
-              </div>
-
-              <div class="field liveOrderField hidden">
-                <label>라이브 시간대 예상 주문 건 수</label>
-                <input type="number" class="liveExpectedOrders" placeholder="라이브 예상 주문 건 수">
-              </div>
-
-              <div class="field">
-                <label>총 상품(SKU) 수량<span class="required">*</span></label>
-                <input type="number" class="dailyExpectedShipmentQty" placeholder="전체 출고 UNIT 예상 수">
-              </div>
-            </div>
-          </div>
-
-          <div class="sub-block">
-            <h3 class="sub-block-title">메인 품목</h3>
-            <p class="sub-block-desc">상품번호, 상품명, 할인율을 입력해주세요.</p>
-
-            <div class="table-wrap">
-              <table class="data-table">
-                <colgroup>
-                  <col style="width: 24%;">
-                  <col style="width: 38%;">
-                  <col style="width: 20%;">
-                  <col style="width: 18%;">
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>상품번호</th>
-                    <th>상품명</th>
-                    <th>할인율</th>
-                    <th>삭제</th>
-                  </tr>
-                </thead>
-                <tbody class="productsContainer"></tbody>
-              </table>
-            </div>
-
-            <div class="action-row">
-              <button class="btn btn-secondary" type="button" onclick="addProductRow('${templateId}')">+ 상품 추가</button>
-            </div>
-          </div>
+    function createItemCard(title, bodyHtml, targetName) {
+      const div = document.createElement('div');
+      div.className = 'item-card';
+      div.innerHTML = `
+        <div class="item-card-top">
+          <strong>${title}</strong>
+          <button type="button" class="remove-btn" data-target="${targetName}">삭제</button>
         </div>
+        ${bodyHtml}
       `;
-
-      container.insertAdjacentHTML('beforeend', html);
-
-      for (let i = 0; i < 10; i++) {
-        addProductRow(templateId);
-      }
+      return div;
     }
 
-    function removeTemplate(templateId) {
-      const el = document.querySelector(`[data-template-id="${templateId}"]`);
-      if (el) el.remove();
+    function addLiveItem() {
+      const count = els.liveList.children.length + 1;
+      const card = createItemCard(
+        `라이브 일정 ${count}`,
+        `
+          <div class="form-grid">
+            <div class="field">
+              <label>라이브 일자</label>
+              <input type="date" class="live-date" />
+            </div>
+            <div class="field">
+              <label>예상 물량</label>
+              <input type="number" class="live-qty" min="0" placeholder="예상 물량" />
+            </div>
+            <div class="field">
+              <label>시작시간</label>
+              <input type="time" class="live-start" />
+            </div>
+            <div class="field">
+              <label>종료시간</label>
+              <input type="time" class="live-end" />
+            </div>
+          </div>
+        `,
+        'live'
+      );
+      els.liveList.appendChild(card);
     }
 
-    function addGiftRow(templateId) {
-      const templateEl = document.querySelector(`[data-template-id="${templateId}"]`);
-      const giftContainer = templateEl.querySelector('.giftRowsContainer');
-
-      const row = document.createElement('tr');
-      row.className = 'gift-row';
-      row.innerHTML = `
-        <td><input type="text" class="giftConditionRow" placeholder="예: 5만원 이상 구매 시"></td>
-        <td><input type="text" class="giftSkuNameRow" placeholder="상품(SKU)명"></td>
-        <td><input type="number" class="giftQtyRow" placeholder="수량"></td>
-        <td><button class="btn btn-danger cell-btn" type="button" onclick="this.closest('tr').remove()">삭제</button></td>
-      `;
-      giftContainer.appendChild(row);
+    function addTalkItem() {
+      const count = els.talkList.children.length + 1;
+      const card = createItemCard(
+        `톡톡 일정 ${count}`,
+        `
+          <div class="form-grid">
+            <div class="field">
+              <label>발송일자</label>
+              <input type="date" class="talk-date" />
+            </div>
+            <div class="field">
+              <label>발송시간</label>
+              <input type="time" class="talk-time" />
+            </div>
+          </div>
+        `,
+        'talk'
+      );
+      els.talkList.appendChild(card);
     }
 
-    function addProductRow(templateId) {
-      const templateEl = document.querySelector(`[data-template-id="${templateId}"]`);
-      const productsContainer = templateEl.querySelector('.productsContainer');
-
-      const row = document.createElement('tr');
-      row.className = 'product-row';
-      row.innerHTML = `
-        <td><input type="text" class="productNo" placeholder="상품번호"></td>
-        <td><input type="text" class="productName" placeholder="상품명"></td>
-        <td><input type="text" class="discountRate" placeholder="예: 10%"></td>
-        <td><button class="btn btn-danger cell-btn" type="button" onclick="this.closest('tr').remove()">삭제</button></td>
-      `;
-      productsContainer.appendChild(row);
+    function addTimeDealItem() {
+      const count = els.timeDealList.children.length + 1;
+      const card = createItemCard(
+        `타임딜 ${count}`,
+        `
+          <div class="form-grid">
+            <div class="field">
+              <label>일자</label>
+              <input type="date" class="timedeal-date" />
+            </div>
+            <div class="field">
+              <label>바코드</label>
+              <input type="text" class="timedeal-barcode" placeholder="바코드 입력" />
+            </div>
+            <div class="field">
+              <label>시작시간</label>
+              <input type="time" class="timedeal-start" />
+            </div>
+            <div class="field">
+              <label>종료시간</label>
+              <input type="time" class="timedeal-end" />
+            </div>
+            <div class="field">
+              <label>예상 물량</label>
+              <input type="number" class="timedeal-qty" min="0" placeholder="예상 물량" />
+            </div>
+            <div class="field">
+              <label>수량 제한 유무</label>
+              <div style="display:flex; align-items:center; min-height:48px; padding:0 2px;">
+                <label class="switch-wrap">
+                  <input type="checkbox" class="time-deal-limit-check" />
+                  <span>제한 있음</span>
+                </label>
+              </div>
+            </div>
+            <div class="field full limit-qty-wrap hidden">
+              <label>제한 수량</label>
+              <input type="number" class="timedeal-limitqty" min="0" placeholder="제한 수량" />
+            </div>
+          </div>
+        `,
+        'timeDeal'
+      );
+      els.timeDealList.appendChild(card);
     }
 
-    function toggleLiveFields(selectEl) {
-      const templateCard = selectEl.closest('.template-card');
-      const show = selectEl.value === 'Y';
+    function addGiftItem() {
+      const count = els.giftList.children.length + 1;
+      const card = createItemCard(
+        `사은품 ${count}`,
+        `
+          <div class="form-grid">
+            <div class="field">
+              <label>사은품 기준</label>
+              <input type="text" class="gift-condition" placeholder="예: 5만원 이상" />
+            </div>
+            <div class="field">
+              <label>바코드</label>
+              <input type="text" class="gift-barcode" placeholder="바코드 입력" />
+            </div>
+            <div class="field full">
+              <label>수량</label>
+              <input type="number" class="gift-qty" min="0" placeholder="수량 입력" />
+            </div>
+          </div>
+        `,
+        'gift'
+      );
+      els.giftList.appendChild(card);
+    }
 
-      templateCard.querySelectorAll('.liveField').forEach(el => {
-        el.classList.toggle('hidden', !show);
+    function addMainSkuItem() {
+      const count = els.mainSkuList.children.length + 1;
+      const card = createItemCard(
+        `메인 SKU ${count}`,
+        `
+          <div class="form-grid">
+            <div class="field">
+              <label>상품 번호</label>
+              <input type="text" class="sku-productno" placeholder="상품 번호 입력" />
+            </div>
+            <div class="field">
+              <label>바코드</label>
+              <input type="text" class="sku-barcode" placeholder="바코드 입력" />
+            </div>
+            <div class="field full">
+              <label>할인율</label>
+              <input type="text" class="sku-discount" placeholder="예: 20%" />
+            </div>
+          </div>
+        `,
+        'mainSku'
+      );
+      els.mainSkuList.appendChild(card);
+    }
+
+    function refreshItemTitles(listEl, prefix) {
+      [...listEl.children].forEach((card, idx) => {
+        const strong = card.querySelector('.item-card-top strong');
+        if (strong) strong.textContent = `${prefix} ${idx + 1}`;
       });
-
-      templateCard.querySelectorAll('.liveOrderField').forEach(el => {
-        el.classList.toggle('hidden', !show);
-      });
     }
 
-    function toggleTalkFields(selectEl) {
-      const templateCard = selectEl.closest('.template-card');
-      const show = selectEl.value === 'Y';
-
-      templateCard.querySelectorAll('.talkField').forEach(el => {
-        el.classList.toggle('hidden', !show);
-      });
+    function getValue(id) {
+      return document.getElementById(id).value.trim();
     }
 
-    function toggleGiftFields(selectEl) {
-      const templateCard = selectEl.closest('.template-card');
-      const giftWrap = templateCard.querySelector('.giftFieldWrap');
-      const show = selectEl.value === 'Y';
-
-      giftWrap.classList.toggle('hidden', !show);
-
-      if (show && giftWrap.querySelectorAll('.gift-row').length === 0) {
-        addGiftRow(templateCard.dataset.templateId);
-      }
+    function showStatus(message, type = 'success') {
+      els.submitStatus.className = `status-box show ${type}`;
+      els.submitStatus.textContent = message;
     }
 
-    function submitPreview() {
-      const customerName = document.getElementById('customerName').value.trim();
-      if (!customerName) {
-        alert('고객사명을 입력해주세요.');
+    function clearStatus() {
+      els.submitStatus.className = 'status-box';
+      els.submitStatus.textContent = '';
+    }
+
+    function collectLiveItems() {
+      return [...els.liveList.querySelectorAll('.item-card')].map(card => ({
+        date: card.querySelector('.live-date')?.value || '',
+        startTime: card.querySelector('.live-start')?.value || '',
+        endTime: card.querySelector('.live-end')?.value || '',
+        expectedQty: card.querySelector('.live-qty')?.value || ''
+      })).filter(item => item.date || item.startTime || item.endTime || item.expectedQty);
+    }
+
+    function collectTalkItems() {
+      return [...els.talkList.querySelectorAll('.item-card')].map(card => ({
+        date: card.querySelector('.talk-date')?.value || '',
+        time: card.querySelector('.talk-time')?.value || ''
+      })).filter(item => item.date || item.time);
+    }
+
+    function collectTimeDealItems() {
+      return [...els.timeDealList.querySelectorAll('.item-card')].map(card => {
+        const hasLimit = !!card.querySelector('.time-deal-limit-check')?.checked;
+        return {
+          date: card.querySelector('.timedeal-date')?.value || '',
+          startTime: card.querySelector('.timedeal-start')?.value || '',
+          endTime: card.querySelector('.timedeal-end')?.value || '',
+          barcode: card.querySelector('.timedeal-barcode')?.value.trim() || '',
+          hasLimit,
+          limitQty: hasLimit ? (card.querySelector('.timedeal-limitqty')?.value || '') : '',
+          expectedQty: card.querySelector('.timedeal-qty')?.value || ''
+        };
+      }).filter(item => item.date || item.startTime || item.endTime || item.barcode || item.expectedQty || item.hasLimit);
+    }
+
+    function collectGiftItems() {
+      return [...els.giftList.querySelectorAll('.item-card')].map(card => ({
+        giftCondition: card.querySelector('.gift-condition')?.value.trim() || '',
+        barcode: card.querySelector('.gift-barcode')?.value.trim() || '',
+        qty: card.querySelector('.gift-qty')?.value || ''
+      })).filter(item => item.giftCondition || item.barcode || item.qty);
+    }
+
+    function collectMainSkuItems() {
+      return [...els.mainSkuList.querySelectorAll('.item-card')].map(card => ({
+        productNo: card.querySelector('.sku-productno')?.value.trim() || '',
+        barcode: card.querySelector('.sku-barcode')?.value.trim() || '',
+        discountRate: card.querySelector('.sku-discount')?.value.trim() || ''
+      })).filter(item => item.productNo || item.barcode || item.discountRate);
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      clearStatus();
+
+      if (!state.clientValid) {
+        showStatus('유효한 고객사 링크가 아닙니다.', 'error');
         return;
       }
 
-      alert('컬럼 헤더 1행 고정 버전으로 반영되었습니다.');
+      const payload = {
+        action: 'submitEvent',
+        clientCode: state.clientCode,
+        eventName: getValue('eventName'),
+        startDate: getValue('startDate'),
+        endDate: getValue('endDate'),
+        expectedQty: getValue('expectedQty'),
+        liveItems: els.hasLive.checked ? collectLiveItems() : [],
+        talkItems: els.hasTalk.checked ? collectTalkItems() : [],
+        timeDealItems: els.hasTimeDeal.checked ? collectTimeDealItems() : [],
+        giftItems: els.hasGift.checked ? collectGiftItems() : [],
+        mainSkuItems: collectMainSkuItems()
+      };
+
+      if (!payload.eventName) {
+        showStatus('행사명을 입력해 주세요.', 'error');
+        return;
+      }
+      if (!payload.startDate) {
+        showStatus('행사 시작일을 입력해 주세요.', 'error');
+        return;
+      }
+      if (!payload.endDate) {
+        showStatus('행사 종료일을 입력해 주세요.', 'error');
+        return;
+      }
+      if (!payload.expectedQty) {
+        showStatus('기간 내 예상 물량을 입력해 주세요.', 'error');
+        return;
+      }
+      if (payload.mainSkuItems.length === 0) {
+        showStatus('메인 SKU 정보를 최소 1개 이상 입력해 주세요.', 'error');
+        return;
+      }
+
+      try {
+        const submitBtn = e.submitter;
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = '제출 중...';
+        }
+
+        const res = await fetch(API_BASE_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+          throw new Error(data.message || '저장에 실패했습니다.');
+        }
+
+        showStatus(`행사 정보가 정상 저장되었습니다. 접수ID: ${data.receiptId}`, 'success');
+        await loadHistory();
+      } catch (err) {
+        showStatus(err.message || '제출 중 오류가 발생했습니다.', 'error');
+      } finally {
+        const submitBtn = e.submitter;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '행사 제출하기';
+        }
+      }
     }
 
-    initPage();
+    async function loadHistory() {
+      if (!state.clientCode) return;
+
+      els.historyLoading.classList.remove('hidden');
+      els.historyList.innerHTML = '';
+
+      try {
+        const url = `${API_BASE_URL}?action=getHistory&client=${encodeURIComponent(state.clientCode)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data.success) {
+          throw new Error(data.message || '히스토리 조회에 실패했습니다.');
+        }
+
+        renderHistory(data.items || []);
+      } catch (err) {
+        els.historyList.innerHTML = `
+          <div class="history-empty">제출 이력을 불러오지 못했습니다.<br />${escapeHtml(err.message || '')}</div>
+        `;
+      } finally {
+        els.historyLoading.classList.add('hidden');
+      }
+    }
+
+    function renderHistory(items) {
+      if (!items.length) {
+        els.historyList.innerHTML = `<div class="history-empty">아직 제출된 행사 이력이 없습니다.</div>`;
+        return;
+      }
+
+      els.historyList.innerHTML = items.map(item => {
+        return `
+          <div class="history-card">
+            <div class="history-top">
+              <div>
+                <div class="history-title">${escapeHtml(item.eventName || '-')}</div>
+              </div>
+              <div class="history-date">${escapeHtml(item.submittedAt || '-')}</div>
+            </div>
+
+            <div class="history-meta">
+              <div class="meta-box">
+                <div class="label">행사 기간</div>
+                <div class="value">${escapeHtml(item.startDate || '-')} ~ ${escapeHtml(item.endDate || '-')}</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">기간 내 예상 물량</div>
+                <div class="value">${escapeHtml(String(item.expectedQty || '-'))}</div>
+              </div>
+            </div>
+
+            <div class="history-flags">
+              ${item.hasLive ? '<span class="flag">라이브</span>' : ''}
+              ${item.hasTalk ? '<span class="flag">톡톡메세지</span>' : ''}
+              ${item.hasTimeDeal ? '<span class="flag">타임딜</span>' : ''}
+              ${item.hasGift ? '<span class="flag">사은품</span>' : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function resetForm() {
+      els.eventForm.reset();
+      els.liveList.innerHTML = '';
+      els.talkList.innerHTML = '';
+      els.timeDealList.innerHTML = '';
+      els.giftList.innerHTML = '';
+      els.mainSkuList.innerHTML = '';
+      els.liveSection.classList.add('hidden');
+      els.talkSection.classList.add('hidden');
+      els.timeDealSection.classList.add('hidden');
+      els.giftSection.classList.add('hidden');
+      clearStatus();
+      addMainSkuItem();
+
+      els.clientName.value = state.clientName || '';
+      els.clientCodeView.value = state.clientCode || '';
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
   </script>
 </body>
 </html>
