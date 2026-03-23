@@ -39,7 +39,7 @@
     }
 
     .wrap {
-      max-width: 1080px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 32px 20px 60px;
     }
@@ -50,7 +50,6 @@
       border-radius: 28px;
       padding: 22px 26px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       gap: 18px;
@@ -70,10 +69,6 @@
       display: block;
       object-fit: contain;
       flex-shrink: 0;
-    }
-
-    .brand-copy {
-      min-width: 0;
     }
 
     .brand-copy h1 {
@@ -122,7 +117,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 220px;
+      min-height: 210px;
     }
 
     .action-card:hover {
@@ -187,9 +182,9 @@
     }
 
     .btn {
-      min-height: 46px;
-      padding: 0 18px;
-      border-radius: 14px;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 12px;
       font-size: 14px;
       font-weight: 700;
       display: inline-flex;
@@ -218,21 +213,33 @@
       background: #f9fafb;
     }
 
+    .btn-danger {
+      background: #fff;
+      color: #c62828;
+      border: 1px solid #f1c1c1;
+    }
+
+    .btn-danger:hover {
+      background: #fff5f5;
+    }
+
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 12px;
     }
 
     .field {
       display: flex;
       flex-direction: column;
       gap: 8px;
+      min-width: 0;
     }
 
-    .field.full {
-      grid-column: 1 / -1;
-    }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-12 { grid-column: 1 / -1; }
 
     label {
       font-size: 14px;
@@ -245,23 +252,24 @@
       color: var(--danger);
     }
 
+    .field-note {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #6b7280;
+      margin-top: -2px;
+    }
+
     input,
     select,
     textarea {
       width: 100%;
-      min-height: 48px;
+      min-height: 46px;
       border: 1px solid #d1d5db;
-      border-radius: 14px;
-      padding: 12px 14px;
+      border-radius: 12px;
+      padding: 10px 12px;
       font-size: 14px;
       color: #111827;
       background: white;
-    }
-
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-      padding-top: 14px;
     }
 
     input:focus,
@@ -275,45 +283,6 @@
     .readonly {
       background: #f9fafb;
       color: #6b7280;
-    }
-
-    .toggle-line {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      border: 1px solid var(--line);
-      background: #fafbfc;
-      border-radius: 18px;
-      padding: 16px 18px;
-      margin-bottom: 16px;
-    }
-
-    .toggle-line-left h3 {
-      font-size: 16px;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 4px;
-    }
-
-    .toggle-line-left p {
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.6;
-    }
-
-    .switch-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-    }
-
-    .switch-wrap input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      min-height: auto;
-      accent-color: var(--brand);
     }
 
     .block-section {
@@ -351,44 +320,92 @@
       padding: 20px;
     }
 
+    .inline-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .inline-check input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--brand);
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .toggle-row .toggle-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-row .toggle-title h4 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111827;
+    }
+
     .item-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .item-card {
       border: 1px solid #e5e7eb;
       background: #fbfcfe;
       border-radius: 18px;
-      padding: 18px;
+      padding: 16px;
     }
 
-    .item-card-top {
+    .compact-row {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 10px;
+      align-items: end;
+    }
+
+    .compact-row + .compact-row {
+      margin-top: 10px;
+    }
+
+    .compact-row .field {
+      gap: 6px;
+    }
+
+    .row-actions {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
+      gap: 8px;
+      justify-content: flex-end;
     }
 
-    .item-card-top strong {
-      font-size: 15px;
-      color: #111827;
+    .row-actions .btn {
+      min-height: 42px;
+      padding: 0 12px;
+      font-size: 13px;
     }
 
-    .remove-btn {
-      background: #fff;
-      border: 1px solid #f1c1c1;
-      color: #c62828;
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .remove-btn:hover {
-      background: #fff5f5;
+    .muted-box {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.7;
     }
 
     .hidden {
@@ -524,18 +541,21 @@
       padding: 20px 0;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1024px) {
       .form-grid,
+      .compact-row {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .span-3,
+      .span-4,
+      .span-6 {
+        grid-column: span 6;
+      }
+
       .history-meta,
       .action-grid {
         grid-template-columns: 1fr;
-      }
-
-      .topbar,
-      .section-top,
-      .history-top {
-        flex-direction: column;
-        align-items: flex-start;
       }
     }
 
@@ -570,6 +590,13 @@
       .action-card {
         min-height: 170px;
         padding: 24px 18px;
+      }
+
+      .section-top,
+      .history-top,
+      .toggle-row {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       .block-body,
@@ -625,51 +652,78 @@
 
       <form id="eventForm">
         <div class="form-grid">
-          <div class="field">
+          <div class="field span-3">
             <label>고객사명</label>
             <input type="text" id="clientName" class="readonly" readonly />
           </div>
 
-          <div class="field">
-            <label>고객사코드</label>
-            <input type="text" id="clientCodeView" class="readonly" readonly />
+          <div class="field span-3">
+            <label for="eventTypeSelect" class="required">행사명</label>
+            <select id="eventTypeSelect">
+              <option value="">선택해 주세요</option>
+              <option>강세일</option>
+              <option>공구</option>
+              <option>기타</option>
+              <option>넾다세일</option>
+              <option>더보장데이</option>
+              <option>보장특가</option>
+              <option>브랜드데이</option>
+              <option>브랜드딜</option>
+              <option>브랜드위크</option>
+              <option>뷰티99딜</option>
+              <option>뷰티페스타</option>
+              <option>선물대첩</option>
+              <option>신상위크</option>
+              <option>신상특가</option>
+              <option>오늘끝딜</option>
+              <option>원플딜</option>
+              <option>이달의쇼핑</option>
+              <option>자체기획전</option>
+              <option>주간쇼핑라이브</option>
+              <option>첫구매위크</option>
+              <option>특선물</option>
+              <option>프리오더</option>
+              <option>헬시페스타</option>
+              <option>야간쇼핑라이브</option>
+            </select>
           </div>
 
-          <div class="field full">
-            <label for="eventName" class="required">행사명</label>
-            <input type="text" id="eventName" placeholder="예: 봄맞이 브랜드 세일" />
+          <div class="field span-3 hidden" id="customEventNameWrap">
+            <label for="customEventName" class="required">직접 입력 행사명</label>
+            <input type="text" id="customEventName" placeholder="행사명을 입력해 주세요" />
           </div>
 
-          <div class="field">
+          <div class="field span-3">
             <label for="startDate" class="required">행사 시작일</label>
             <input type="date" id="startDate" />
           </div>
 
-          <div class="field">
+          <div class="field span-3">
             <label for="endDate" class="required">행사 종료일</label>
             <input type="date" id="endDate" />
           </div>
 
-          <div class="field full">
-            <label for="expectedQty" class="required">기간 내 예상 물량</label>
-            <input type="number" id="expectedQty" placeholder="예상 물량을 입력해 주세요" min="0" />
+          <div class="field span-3">
+            <label for="expectedQty" class="required">예상 물량</label>
+            <input type="number" id="expectedQty" placeholder="송장 기준 수량" min="0" />
+            <div class="field-note">타임딜/라이브 물량 포함, 송장 기준으로 입력해 주세요.</div>
           </div>
         </div>
 
+        <!-- 라이브 -->
         <div class="block-section">
           <div class="block-head">
             <div>
               <h3>라이브 진행</h3>
-              <p>체크 시 날짜, 시간대, 예상 물량을 입력할 수 있습니다.</p>
+              <p>라이브 시간대 물량만 별도로 입력해 주세요.</p>
             </div>
           </div>
           <div class="block-body">
-            <div class="toggle-line">
-              <div class="toggle-line-left">
-                <h3>라이브 유무</h3>
-                <p>라이브 일정이 있는 경우 체크 후 항목을 추가해 주세요.</p>
+            <div class="toggle-row">
+              <div class="toggle-title">
+                <h4>라이브 진행 유무</h4>
               </div>
-              <label class="switch-wrap">
+              <label class="inline-check">
                 <input type="checkbox" id="hasLive" />
                 <span>사용</span>
               </label>
@@ -684,20 +738,20 @@
           </div>
         </div>
 
+        <!-- 톡톡 -->
         <div class="block-section">
           <div class="block-head">
             <div>
               <h3>톡톡메세지 발송</h3>
-              <p>체크 시 발송일자와 시간을 추가할 수 있습니다.</p>
+              <p>발송 일정만 등록해 주세요.</p>
             </div>
           </div>
           <div class="block-body">
-            <div class="toggle-line">
-              <div class="toggle-line-left">
-                <h3>톡톡메세지 발송 유무</h3>
-                <p>발송 일정이 있다면 체크 후 항목을 추가해 주세요.</p>
+            <div class="toggle-row">
+              <div class="toggle-title">
+                <h4>톡톡메세지 발송 유무</h4>
               </div>
-              <label class="switch-wrap">
+              <label class="inline-check">
                 <input type="checkbox" id="hasTalk" />
                 <span>사용</span>
               </label>
@@ -705,27 +759,27 @@
 
             <div id="talkSection" class="hidden">
               <div class="btn-row" style="margin-bottom:14px;">
-                <button type="button" class="btn btn-secondary" id="addTalkBtn">+ 톡톡 발송 일정 추가</button>
+                <button type="button" class="btn btn-secondary" id="addTalkBtn">+ 톡톡 일정 추가</button>
               </div>
               <div class="item-list" id="talkList"></div>
             </div>
           </div>
         </div>
 
+        <!-- 타임딜 -->
         <div class="block-section">
           <div class="block-head">
             <div>
               <h3>타임딜</h3>
-              <p>체크 시 일자, 시간, 바코드, 수량 제한 여부, 예상 물량을 추가할 수 있습니다.</p>
+              <p>일자 / 시간 / 바코드 / 예상 물량 기준으로 등록해 주세요.</p>
             </div>
           </div>
           <div class="block-body">
-            <div class="toggle-line">
-              <div class="toggle-line-left">
-                <h3>타임딜 유무</h3>
-                <p>타임딜 일정이 있다면 체크 후 항목을 추가해 주세요.</p>
+            <div class="toggle-row">
+              <div class="toggle-title">
+                <h4>타임딜 유무</h4>
               </div>
-              <label class="switch-wrap">
+              <label class="inline-check">
                 <input type="checkbox" id="hasTimeDeal" />
                 <span>사용</span>
               </label>
@@ -740,20 +794,20 @@
           </div>
         </div>
 
+        <!-- 사은품 -->
         <div class="block-section">
           <div class="block-head">
             <div>
               <h3>사은품</h3>
-              <p>체크 시 사은품 기준 / 바코드 / 수량을 여러 줄로 추가할 수 있습니다.</p>
+              <p>사은품 기준별로 바코드와 수량을 여러 개 추가할 수 있습니다.</p>
             </div>
           </div>
           <div class="block-body">
-            <div class="toggle-line">
-              <div class="toggle-line-left">
-                <h3>사은품 유무</h3>
-                <p>사은품이 있다면 체크 후 항목을 추가해 주세요.</p>
+            <div class="toggle-row">
+              <div class="toggle-title">
+                <h4>사은품 증정</h4>
               </div>
-              <label class="switch-wrap">
+              <label class="inline-check">
                 <input type="checkbox" id="hasGift" />
                 <span>사용</span>
               </label>
@@ -761,22 +815,25 @@
 
             <div id="giftSection" class="hidden">
               <div class="btn-row" style="margin-bottom:14px;">
-                <button type="button" class="btn btn-secondary" id="addGiftBtn">+ 사은품 항목 추가</button>
+                <button type="button" class="btn btn-secondary" id="addGiftGroupBtn">+ 사은품 항목 추가</button>
               </div>
-              <div class="item-list" id="giftList"></div>
+              <div class="item-list" id="giftGroupList"></div>
             </div>
           </div>
         </div>
 
+        <!-- 메인 SKU -->
         <div class="block-section">
           <div class="block-head">
             <div>
               <h3>메인 SKU 정보</h3>
-              <p>상품 번호 / 바코드 / 할인율을 여러 줄로 추가할 수 있습니다.</p>
+              <p>상품번호 / 바코드 / 할인율 / 예상 출고 PCS 수량을 입력해 주세요.</p>
             </div>
-            <button type="button" class="btn btn-secondary" id="addMainSkuBtn">+ 메인 SKU 추가</button>
           </div>
           <div class="block-body">
+            <div class="btn-row" style="margin-bottom:14px;">
+              <button type="button" class="btn btn-secondary" id="addMainSkuBtn">+ 메인 SKU 추가</button>
+            </div>
             <div class="item-list" id="mainSkuList"></div>
           </div>
         </div>
@@ -832,7 +889,10 @@
       goHistoryBtn: document.getElementById('goHistoryBtn'),
 
       clientName: document.getElementById('clientName'),
-      clientCodeView: document.getElementById('clientCodeView'),
+      eventTypeSelect: document.getElementById('eventTypeSelect'),
+      customEventNameWrap: document.getElementById('customEventNameWrap'),
+      customEventName: document.getElementById('customEventName'),
+
       eventForm: document.getElementById('eventForm'),
       submitStatus: document.getElementById('submitStatus'),
 
@@ -849,13 +909,13 @@
       liveList: document.getElementById('liveList'),
       talkList: document.getElementById('talkList'),
       timeDealList: document.getElementById('timeDealList'),
-      giftList: document.getElementById('giftList'),
+      giftGroupList: document.getElementById('giftGroupList'),
       mainSkuList: document.getElementById('mainSkuList'),
 
       addLiveBtn: document.getElementById('addLiveBtn'),
       addTalkBtn: document.getElementById('addTalkBtn'),
       addTimeDealBtn: document.getElementById('addTimeDealBtn'),
-      addGiftBtn: document.getElementById('addGiftBtn'),
+      addGiftGroupBtn: document.getElementById('addGiftGroupBtn'),
       addMainSkuBtn: document.getElementById('addMainSkuBtn'),
 
       reloadHistoryBtn: document.getElementById('reloadHistoryBtn'),
@@ -893,15 +953,21 @@
         });
       });
 
+      els.eventTypeSelect.addEventListener('change', () => {
+        const isEtc = els.eventTypeSelect.value === '기타';
+        els.customEventNameWrap.classList.toggle('hidden', !isEtc);
+        if (!isEtc) els.customEventName.value = '';
+      });
+
       els.hasLive.addEventListener('change', () => toggleSection(els.hasLive, els.liveSection, els.liveList, addLiveItem));
       els.hasTalk.addEventListener('change', () => toggleSection(els.hasTalk, els.talkSection, els.talkList, addTalkItem));
       els.hasTimeDeal.addEventListener('change', () => toggleSection(els.hasTimeDeal, els.timeDealSection, els.timeDealList, addTimeDealItem));
-      els.hasGift.addEventListener('change', () => toggleSection(els.hasGift, els.giftSection, els.giftList, addGiftItem));
+      els.hasGift.addEventListener('change', () => toggleSection(els.hasGift, els.giftSection, els.giftGroupList, addGiftGroup));
 
       els.addLiveBtn.addEventListener('click', addLiveItem);
       els.addTalkBtn.addEventListener('click', addTalkItem);
       els.addTimeDealBtn.addEventListener('click', addTimeDealItem);
-      els.addGiftBtn.addEventListener('click', addGiftItem);
+      els.addGiftGroupBtn.addEventListener('click', addGiftGroup);
       els.addMainSkuBtn.addEventListener('click', addMainSkuItem);
 
       els.reloadHistoryBtn.addEventListener('click', loadHistory);
@@ -910,30 +976,57 @@
       els.eventForm.addEventListener('submit', handleSubmit);
 
       document.addEventListener('click', (e) => {
-        const removeBtn = e.target.closest('.remove-btn');
-        if (!removeBtn) return;
+        const action = e.target.dataset.action;
+        if (!action) return;
 
-        const target = removeBtn.dataset.target;
-        const card = removeBtn.closest('.item-card');
-        if (card) card.remove();
-
-        if (target === 'mainSku') {
-          if (els.mainSkuList.children.length === 0) addMainSkuItem();
-          refreshItemTitles(els.mainSkuList, '메인 SKU');
+        if (action === 'remove-live-row') {
+          e.target.closest('.item-card')?.remove();
+          ensureAtLeastOneRow(els.liveList, addLiveItem, els.hasLive.checked);
         }
-        if (target === 'live') refreshItemTitles(els.liveList, '라이브 일정');
-        if (target === 'talk') refreshItemTitles(els.talkList, '톡톡 일정');
-        if (target === 'timeDeal') refreshItemTitles(els.timeDealList, '타임딜');
-        if (target === 'gift') refreshItemTitles(els.giftList, '사은품');
+
+        if (action === 'remove-talk-row') {
+          e.target.closest('.item-card')?.remove();
+          ensureAtLeastOneRow(els.talkList, addTalkItem, els.hasTalk.checked);
+        }
+
+        if (action === 'remove-timedeal-row') {
+          e.target.closest('.item-card')?.remove();
+          ensureAtLeastOneRow(els.timeDealList, addTimeDealItem, els.hasTimeDeal.checked);
+        }
+
+        if (action === 'remove-gift-group') {
+          e.target.closest('.gift-group-card')?.remove();
+          ensureAtLeastOneRow(els.giftGroupList, addGiftGroup, els.hasGift.checked);
+        }
+
+        if (action === 'add-gift-barcode') {
+          const group = e.target.closest('.gift-group-card');
+          if (group) addGiftBarcodeRow(group);
+        }
+
+        if (action === 'remove-gift-barcode') {
+          const row = e.target.closest('.gift-barcode-row');
+          const group = e.target.closest('.gift-group-card');
+          row?.remove();
+          if (group) {
+            const list = group.querySelector('.gift-barcode-list');
+            if (list && list.children.length === 0) addGiftBarcodeRow(group);
+          }
+        }
+
+        if (action === 'remove-mainsku-row') {
+          e.target.closest('.item-card')?.remove();
+          if (els.mainSkuList.children.length === 0) addMainSkuItem();
+        }
       });
 
       document.addEventListener('change', (e) => {
-        if (e.target.classList.contains('time-deal-limit-check')) {
-          const wrap = e.target.closest('.item-card');
-          if (!wrap) return;
-          const limitInputWrap = wrap.querySelector('.limit-qty-wrap');
-          if (!limitInputWrap) return;
-          limitInputWrap.classList.toggle('hidden', !e.target.checked);
+        const liveStart = e.target.closest('.live-start-select');
+        const liveDuration = e.target.closest('.live-duration-select');
+
+        if (liveStart || liveDuration) {
+          const card = e.target.closest('.item-card');
+          if (card) updateLiveDerivedFields(card);
         }
       });
     }
@@ -972,7 +1065,6 @@
 
         els.homeClientName.textContent = `${data.clientName} 전용 행사 공유 페이지입니다.`;
         els.clientName.value = data.clientName;
-        els.clientCodeView.value = data.clientCode;
       } catch (err) {
         setClientInvalid();
       }
@@ -985,7 +1077,6 @@
 
       els.homeClientName.textContent = '행사 공유 페이지입니다.';
       els.clientName.value = '';
-      els.clientCodeView.value = '';
       clearStatus();
     }
 
@@ -1013,174 +1104,276 @@
       }
     }
 
-    function createItemCard(title, bodyHtml, targetName) {
+    function ensureAtLeastOneRow(listEl, addFn, shouldHaveRow) {
+      if (shouldHaveRow && listEl.children.length === 0) {
+        addFn();
+      }
+    }
+
+    function createRowCard(innerHtml) {
       const div = document.createElement('div');
       div.className = 'item-card';
-      div.innerHTML = `
-        <div class="item-card-top">
-          <strong>${title}</strong>
-          <button type="button" class="remove-btn" data-target="${targetName}">삭제</button>
-        </div>
-        ${bodyHtml}
-      `;
+      div.innerHTML = innerHtml;
       return div;
     }
 
     function addLiveItem() {
-      const count = els.liveList.children.length + 1;
-      const card = createItemCard(
-        `라이브 일정 ${count}`,
-        `
-          <div class="form-grid">
-            <div class="field">
-              <label>라이브 일자</label>
-              <input type="date" class="live-date" />
-            </div>
-            <div class="field">
-              <label>예상 물량</label>
-              <input type="number" class="live-qty" min="0" placeholder="예상 물량" />
-            </div>
-            <div class="field">
-              <label>시작시간</label>
-              <input type="time" class="live-start" />
-            </div>
-            <div class="field">
-              <label>종료시간</label>
-              <input type="time" class="live-end" />
+      const card = createRowCard(`
+        <div class="compact-row">
+          <div class="field span-3">
+            <label>라이브 일자</label>
+            <input type="date" class="live-date" />
+          </div>
+
+          <div class="field span-2">
+            <label>시작시간</label>
+            <select class="live-start-select">
+              <option value="">선택</option>
+              <option value="10:00">10시</option>
+              <option value="11:00">11시</option>
+              <option value="12:00">12시</option>
+              <option value="18:00">18시</option>
+              <option value="19:00">19시</option>
+              <option value="20:00">20시</option>
+            </select>
+          </div>
+
+          <div class="field span-2">
+            <label>라이브 시간</label>
+            <select class="live-duration-select">
+              <option value="">선택</option>
+              <option value="60">1시간</option>
+              <option value="90">1시간30분</option>
+              <option value="120">2시간</option>
+            </select>
+          </div>
+
+          <div class="field span-2">
+            <label>종료시간</label>
+            <input type="text" class="live-end-display readonly" readonly placeholder="자동 계산" />
+          </div>
+
+          <div class="field span-2">
+            <label>라이브 유형</label>
+            <input type="text" class="live-type-display readonly" readonly placeholder="자동 표시" />
+          </div>
+
+          <div class="field span-1">
+            <label>&nbsp;</label>
+            <div class="row-actions">
+              <button type="button" class="btn btn-danger" data-action="remove-live-row">삭제</button>
             </div>
           </div>
-        `,
-        'live'
-      );
+        </div>
+
+        <div class="compact-row">
+          <div class="field span-4">
+            <label>라이브 예상 물량</label>
+            <input type="number" class="live-qty" min="0" placeholder="라이브 시간대 물량" />
+          </div>
+        </div>
+      `);
+
       els.liveList.appendChild(card);
     }
 
+    function updateLiveDerivedFields(card) {
+      const startValue = card.querySelector('.live-start-select')?.value || '';
+      const durationValue = card.querySelector('.live-duration-select')?.value || '';
+      const endDisplay = card.querySelector('.live-end-display');
+      const typeDisplay = card.querySelector('.live-type-display');
+
+      if (!startValue) {
+        if (endDisplay) endDisplay.value = '';
+        if (typeDisplay) typeDisplay.value = '';
+        return;
+      }
+
+      if (typeDisplay) {
+        const hour = Number(startValue.split(':')[0]);
+        if (hour >= 10 && hour <= 12) {
+          typeDisplay.value = '주간쇼핑라이브';
+        } else if (hour >= 18) {
+          typeDisplay.value = '야간쇼핑라이브';
+        } else {
+          typeDisplay.value = '';
+        }
+      }
+
+      if (!durationValue) {
+        if (endDisplay) endDisplay.value = '';
+        return;
+      }
+
+      const end = calculateEndTime(startValue, Number(durationValue));
+      if (endDisplay) endDisplay.value = end;
+    }
+
+    function calculateEndTime(startTime, durationMinutes) {
+      const [h, m] = startTime.split(':').map(Number);
+      const total = h * 60 + m + durationMinutes;
+      const endH = Math.floor(total / 60) % 24;
+      const endM = total % 60;
+      return `${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}`;
+    }
+
     function addTalkItem() {
-      const count = els.talkList.children.length + 1;
-      const card = createItemCard(
-        `톡톡 일정 ${count}`,
-        `
-          <div class="form-grid">
-            <div class="field">
-              <label>발송일자</label>
-              <input type="date" class="talk-date" />
-            </div>
-            <div class="field">
-              <label>발송시간</label>
-              <input type="time" class="talk-time" />
+      const card = createRowCard(`
+        <div class="compact-row">
+          <div class="field span-4">
+            <label>발송일자</label>
+            <input type="date" class="talk-date" />
+          </div>
+
+          <div class="field span-4">
+            <label>시간</label>
+            <input type="time" class="talk-time" />
+          </div>
+
+          <div class="field span-4">
+            <label>&nbsp;</label>
+            <div class="row-actions" style="justify-content:flex-start;">
+              <button type="button" class="btn btn-danger" data-action="remove-talk-row">삭제</button>
             </div>
           </div>
-        `,
-        'talk'
-      );
+        </div>
+      `);
+
       els.talkList.appendChild(card);
     }
 
     function addTimeDealItem() {
-      const count = els.timeDealList.children.length + 1;
-      const card = createItemCard(
-        `타임딜 ${count}`,
-        `
-          <div class="form-grid">
-            <div class="field">
-              <label>일자</label>
-              <input type="date" class="timedeal-date" />
-            </div>
-            <div class="field">
-              <label>바코드</label>
-              <input type="text" class="timedeal-barcode" placeholder="바코드 입력" />
-            </div>
-            <div class="field">
-              <label>시작시간</label>
-              <input type="time" class="timedeal-start" />
-            </div>
-            <div class="field">
-              <label>종료시간</label>
-              <input type="time" class="timedeal-end" />
-            </div>
-            <div class="field">
-              <label>예상 물량</label>
-              <input type="number" class="timedeal-qty" min="0" placeholder="예상 물량" />
-            </div>
-            <div class="field">
-              <label>수량 제한 유무</label>
-              <div style="display:flex; align-items:center; min-height:48px; padding:0 2px;">
-                <label class="switch-wrap">
-                  <input type="checkbox" class="time-deal-limit-check" />
-                  <span>제한 있음</span>
-                </label>
-              </div>
-            </div>
-            <div class="field full limit-qty-wrap hidden">
-              <label>제한 수량</label>
-              <input type="number" class="timedeal-limitqty" min="0" placeholder="제한 수량" />
+      const card = createRowCard(`
+        <div class="compact-row">
+          <div class="field span-3">
+            <label>일자</label>
+            <input type="date" class="timedeal-date" />
+          </div>
+
+          <div class="field span-2">
+            <label>시간</label>
+            <input type="time" class="timedeal-start" />
+          </div>
+
+          <div class="field span-4">
+            <label>바코드</label>
+            <input type="text" class="timedeal-barcode" placeholder="바코드 입력" />
+          </div>
+
+          <div class="field span-2">
+            <label>예상 물량</label>
+            <input type="number" class="timedeal-qty" min="0" placeholder="수량" />
+          </div>
+
+          <div class="field span-1">
+            <label>&nbsp;</label>
+            <div class="row-actions">
+              <button type="button" class="btn btn-danger" data-action="remove-timedeal-row">삭제</button>
             </div>
           </div>
-        `,
-        'timeDeal'
-      );
+        </div>
+      `);
+
       els.timeDealList.appendChild(card);
     }
 
-    function addGiftItem() {
-      const count = els.giftList.children.length + 1;
-      const card = createItemCard(
-        `사은품 ${count}`,
-        `
-          <div class="form-grid">
-            <div class="field">
-              <label>사은품 기준</label>
-              <input type="text" class="gift-condition" placeholder="예: 5만원 이상" />
-            </div>
-            <div class="field">
-              <label>바코드</label>
-              <input type="text" class="gift-barcode" placeholder="바코드 입력" />
-            </div>
-            <div class="field full">
-              <label>수량</label>
-              <input type="number" class="gift-qty" min="0" placeholder="수량 입력" />
+    function addGiftGroup() {
+      const group = document.createElement('div');
+      group.className = 'item-card gift-group-card';
+      group.innerHTML = `
+        <div class="compact-row" style="margin-bottom:12px;">
+          <div class="field span-4">
+            <label>사은품 기준</label>
+            <input type="text" class="gift-condition" placeholder="예: 5만원 이상" />
+          </div>
+
+          <div class="field span-8">
+            <label>&nbsp;</label>
+            <div class="row-actions" style="justify-content:flex-start;">
+              <button type="button" class="btn btn-secondary" data-action="add-gift-barcode">+ 바코드 추가</button>
+              <button type="button" class="btn btn-danger" data-action="remove-gift-group">삭제</button>
             </div>
           </div>
-        `,
-        'gift'
-      );
-      els.giftList.appendChild(card);
+        </div>
+
+        <div class="gift-barcode-list"></div>
+      `;
+
+      els.giftGroupList.appendChild(group);
+      addGiftBarcodeRow(group);
+    }
+
+    function addGiftBarcodeRow(group) {
+      const list = group.querySelector('.gift-barcode-list');
+      const row = document.createElement('div');
+      row.className = 'gift-barcode-row';
+      row.innerHTML = `
+        <div class="compact-row">
+          <div class="field span-5">
+            <label>바코드</label>
+            <input type="text" class="gift-barcode" placeholder="바코드 입력" />
+          </div>
+
+          <div class="field span-3">
+            <label>수량</label>
+            <input type="number" class="gift-qty" min="0" placeholder="수량 입력" />
+          </div>
+
+          <div class="field span-4">
+            <label>&nbsp;</label>
+            <div class="row-actions" style="justify-content:flex-start;">
+              <button type="button" class="btn btn-danger" data-action="remove-gift-barcode">바코드 삭제</button>
+            </div>
+          </div>
+        </div>
+      `;
+      list.appendChild(row);
     }
 
     function addMainSkuItem() {
-      const count = els.mainSkuList.children.length + 1;
-      const card = createItemCard(
-        `메인 SKU ${count}`,
-        `
-          <div class="form-grid">
-            <div class="field">
-              <label>상품 번호</label>
-              <input type="text" class="sku-productno" placeholder="상품 번호 입력" />
-            </div>
-            <div class="field">
-              <label>바코드</label>
-              <input type="text" class="sku-barcode" placeholder="바코드 입력" />
-            </div>
-            <div class="field full">
-              <label>할인율</label>
-              <input type="text" class="sku-discount" placeholder="예: 20%" />
+      const card = createRowCard(`
+        <div class="compact-row">
+          <div class="field span-3">
+            <label>상품번호</label>
+            <input type="text" class="sku-productno" placeholder="상품번호 입력" />
+          </div>
+
+          <div class="field span-3">
+            <label>바코드</label>
+            <input type="text" class="sku-barcode" placeholder="바코드 입력" />
+          </div>
+
+          <div class="field span-2">
+            <label>할인율</label>
+            <input type="text" class="sku-discount" placeholder="예: 20%" />
+          </div>
+
+          <div class="field span-3">
+            <label>예상 출고 PCS 수량</label>
+            <input type="number" class="sku-pcs" min="0" placeholder="PCS 수량" />
+          </div>
+
+          <div class="field span-1">
+            <label>&nbsp;</label>
+            <div class="row-actions">
+              <button type="button" class="btn btn-danger" data-action="remove-mainsku-row">삭제</button>
             </div>
           </div>
-        `,
-        'mainSku'
-      );
-      els.mainSkuList.appendChild(card);
-    }
+        </div>
+      `);
 
-    function refreshItemTitles(listEl, prefix) {
-      [...listEl.children].forEach((card, idx) => {
-        const strong = card.querySelector('.item-card-top strong');
-        if (strong) strong.textContent = `${prefix} ${idx + 1}`;
-      });
+      els.mainSkuList.appendChild(card);
     }
 
     function getValue(id) {
       return document.getElementById(id).value.trim();
+    }
+
+    function getSelectedEventName() {
+      const selected = els.eventTypeSelect.value.trim();
+      if (!selected) return '';
+      if (selected === '기타') return els.customEventName.value.trim();
+      return selected;
     }
 
     function showStatus(message, type = 'success') {
@@ -1194,12 +1387,19 @@
     }
 
     function collectLiveItems() {
-      return [...els.liveList.querySelectorAll('.item-card')].map(card => ({
-        date: card.querySelector('.live-date')?.value || '',
-        startTime: card.querySelector('.live-start')?.value || '',
-        endTime: card.querySelector('.live-end')?.value || '',
-        expectedQty: card.querySelector('.live-qty')?.value || ''
-      })).filter(item => item.date || item.startTime || item.endTime || item.expectedQty);
+      return [...els.liveList.querySelectorAll('.item-card')].map(card => {
+        const startTime = card.querySelector('.live-start-select')?.value || '';
+        const duration = card.querySelector('.live-duration-select')?.value || '';
+        const endTime = duration ? calculateEndTime(startTime, Number(duration)) : '';
+
+        return {
+          date: card.querySelector('.live-date')?.value || '',
+          startTime,
+          endTime,
+          expectedQty: card.querySelector('.live-qty')?.value || '',
+          liveType: card.querySelector('.live-type-display')?.value || ''
+        };
+      }).filter(item => item.date || item.startTime || item.endTime || item.expectedQty);
     }
 
     function collectTalkItems() {
@@ -1211,33 +1411,43 @@
 
     function collectTimeDealItems() {
       return [...els.timeDealList.querySelectorAll('.item-card')].map(card => {
-        const hasLimit = !!card.querySelector('.time-deal-limit-check')?.checked;
+        const startTime = card.querySelector('.timedeal-start')?.value || '';
         return {
           date: card.querySelector('.timedeal-date')?.value || '',
-          startTime: card.querySelector('.timedeal-start')?.value || '',
-          endTime: card.querySelector('.timedeal-end')?.value || '',
+          startTime,
+          endTime: startTime,
           barcode: card.querySelector('.timedeal-barcode')?.value.trim() || '',
-          hasLimit,
-          limitQty: hasLimit ? (card.querySelector('.timedeal-limitqty')?.value || '') : '',
+          hasLimit: false,
+          limitQty: '',
           expectedQty: card.querySelector('.timedeal-qty')?.value || ''
         };
-      }).filter(item => item.date || item.startTime || item.endTime || item.barcode || item.expectedQty || item.hasLimit);
+      }).filter(item => item.date || item.startTime || item.barcode || item.expectedQty);
     }
 
     function collectGiftItems() {
-      return [...els.giftList.querySelectorAll('.item-card')].map(card => ({
-        giftCondition: card.querySelector('.gift-condition')?.value.trim() || '',
-        barcode: card.querySelector('.gift-barcode')?.value.trim() || '',
-        qty: card.querySelector('.gift-qty')?.value || ''
-      })).filter(item => item.giftCondition || item.barcode || item.qty);
+      const results = [];
+
+      [...els.giftGroupList.querySelectorAll('.gift-group-card')].forEach(group => {
+        const condition = group.querySelector('.gift-condition')?.value.trim() || '';
+        [...group.querySelectorAll('.gift-barcode-row')].forEach(row => {
+          results.push({
+            giftCondition: condition,
+            barcode: row.querySelector('.gift-barcode')?.value.trim() || '',
+            qty: row.querySelector('.gift-qty')?.value || ''
+          });
+        });
+      });
+
+      return results.filter(item => item.giftCondition || item.barcode || item.qty);
     }
 
     function collectMainSkuItems() {
       return [...els.mainSkuList.querySelectorAll('.item-card')].map(card => ({
         productNo: card.querySelector('.sku-productno')?.value.trim() || '',
         barcode: card.querySelector('.sku-barcode')?.value.trim() || '',
-        discountRate: card.querySelector('.sku-discount')?.value.trim() || ''
-      })).filter(item => item.productNo || item.barcode || item.discountRate);
+        discountRate: card.querySelector('.sku-discount')?.value.trim() || '',
+        expectedPcsQty: card.querySelector('.sku-pcs')?.value || ''
+      })).filter(item => item.productNo || item.barcode || item.discountRate || item.expectedPcsQty);
     }
 
     async function handleSubmit(e) {
@@ -1249,10 +1459,12 @@
         return;
       }
 
+      const eventName = getSelectedEventName();
+
       const payload = {
         action: 'submitEvent',
         clientCode: state.clientCode,
-        eventName: getValue('eventName'),
+        eventName,
         startDate: getValue('startDate'),
         endDate: getValue('endDate'),
         expectedQty: getValue('expectedQty'),
@@ -1264,7 +1476,7 @@
       };
 
       if (!payload.eventName) {
-        showStatus('행사명을 입력해 주세요.', 'error');
+        showStatus('행사명을 선택하거나 입력해 주세요.', 'error');
         return;
       }
       if (!payload.startDate) {
@@ -1276,7 +1488,7 @@
         return;
       }
       if (!payload.expectedQty) {
-        showStatus('기간 내 예상 물량을 입력해 주세요.', 'error');
+        showStatus('예상 물량을 입력해 주세요.', 'error');
         return;
       }
       if (payload.mainSkuItems.length === 0) {
@@ -1365,7 +1577,7 @@
                 <div class="value">${escapeHtml(item.startDate || '-')} ~ ${escapeHtml(item.endDate || '-')}</div>
               </div>
               <div class="meta-box">
-                <div class="label">기간 내 예상 물량</div>
+                <div class="label">예상 물량</div>
                 <div class="value">${escapeHtml(String(item.expectedQty || '-'))}</div>
               </div>
             </div>
@@ -1383,20 +1595,22 @@
 
     function resetForm() {
       els.eventForm.reset();
+
       els.liveList.innerHTML = '';
       els.talkList.innerHTML = '';
       els.timeDealList.innerHTML = '';
-      els.giftList.innerHTML = '';
+      els.giftGroupList.innerHTML = '';
       els.mainSkuList.innerHTML = '';
+
       els.liveSection.classList.add('hidden');
       els.talkSection.classList.add('hidden');
       els.timeDealSection.classList.add('hidden');
       els.giftSection.classList.add('hidden');
+      els.customEventNameWrap.classList.add('hidden');
+
       clearStatus();
       addMainSkuItem();
-
       els.clientName.value = state.clientName || '';
-      els.clientCodeView.value = state.clientCode || '';
     }
 
     function escapeHtml(value) {
