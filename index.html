@@ -676,6 +676,34 @@
         padding: 16px;
       }
     }
+    /* 고객사 안내 문구 */
+.home-client-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 28px;
+}
+
+/* 버튼 심플 버전 */
+.action-grid.simple {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.action-card.simple {
+  padding: 26px 20px;
+  text-align: center;
+}
+
+.action-card.simple p {
+  display: none; /* 설명 제거 */
+}
+
+    .action-card.simple .icon {
+  width: 64px;
+  height: 64px;
+  font-size: 28px;
+}
   </style>
 </head>
 <body>
@@ -686,25 +714,34 @@
         <img src="./Symbol%20Type%20Logo.png" alt="품고 로고" class="brand-logo" />
         <div class="brand-copy">
           <h1>행사 공유 리스트</h1>
-          <p>행사 정보를 등록하고, 이전에 제출한 이력을 한 화면에서 확인할 수 있습니다.</p>
+          <p>`${data.clientName} 전용 행사 공유 페이지입니다.`;</p>
         </div>
       </div>
       <div class="client-badge" id="clientBadge">고객사 확인 중...</div>
     </header>
 
     <!-- 메인 -->
-    <section class="panel active" id="homePanel">
-      <div class="hero">
-        <div class="hero-card">
-          <div>
-            <span class="mini-label">EVENT SHARE</span>
-            <h2>행사 공유가 필요한 정보를<br />간편하게 등록해 주세요.</h2>
-            <p>
-              행사명, 행사기간, 예상 물량, 라이브/톡톡/타임딜/사은품/SKU 정보까지
-              한 번에 제출할 수 있도록 구성했습니다.
-            </p>
-          </div>
-        </div>
+<section class="panel active" id="homePanel">
+
+  <!-- 고객사 안내 문구 -->
+  <div class="home-client-title" id="homeClientName">
+    고객사 정보를 불러오는 중입니다.
+  </div>
+
+  <!-- 버튼 -->
+  <div class="action-grid simple">
+    <button type="button" class="action-card simple" id="goFormBtn">
+      <div class="icon">📝</div>
+      <h3>행사 제출하기</h3>
+    </button>
+
+    <button type="button" class="action-card simple" id="goHistoryBtn">
+      <div class="icon">🕘</div>
+      <h3>과거 제출 행사 보기</h3>
+    </button>
+  </div>
+
+</section>
 
         <div class="hero-side">
           <span class="mini-label">안내</span>
@@ -1104,17 +1141,14 @@
 function setClientInvalid(message) {
   state.clientValid = false;
 
-  // 🔥 여기 핵심 수정
-  els.clientBadge.textContent = '품고';  // ← 로고 옆에 뜨는 텍스트
+  els.clientBadge.textContent = '행사 공유';
 
-  // 🔥 메인 문구도 깔끔하게
+  // 🔥 이거 핵심
   els.homeClientName.textContent = '행사 공유 페이지입니다.';
 
-  // 입력폼은 비워두되 UI는 깨지지 않게
   els.clientName.value = '';
   els.clientCodeView.value = '';
 
-  // ❌ 에러 느낌 제거
   clearStatus();
 }
     function showPanel(name) {
