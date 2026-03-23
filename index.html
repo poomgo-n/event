@@ -1101,15 +1101,22 @@
       }
     }
 
-    function setClientInvalid(message) {
-      state.clientValid = false;
-      els.clientBadge.textContent = '링크 확인 필요';
-      els.homeClientName.textContent = message;
-      els.clientName.value = '';
-      els.clientCodeView.value = '';
-      showStatus(message, 'error');
-    }
+function setClientInvalid(message) {
+  state.clientValid = false;
 
+  // 🔥 여기 핵심 수정
+  els.clientBadge.textContent = '품고';  // ← 로고 옆에 뜨는 텍스트
+
+  // 🔥 메인 문구도 깔끔하게
+  els.homeClientName.textContent = '행사 공유 페이지입니다.';
+
+  // 입력폼은 비워두되 UI는 깨지지 않게
+  els.clientName.value = '';
+  els.clientCodeView.value = '';
+
+  // ❌ 에러 느낌 제거
+  clearStatus();
+}
     function showPanel(name) {
       els.homePanel.classList.remove('active');
       els.formPanel.classList.remove('active');
